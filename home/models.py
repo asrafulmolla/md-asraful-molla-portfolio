@@ -48,17 +48,21 @@ class Experience(models.Model):
 
 class Skill(models.Model):
     SKILL_CATEGORIES = [
-    ('languages', 'Programming Languages'),
-    ('frameworks', 'Frameworks & Libraries'),
-    ('tools', 'Tools & Platforms'),
-    ('databases', 'Databases'),
-    ('cloud', 'Cloud & DevOps'),
-    ('other', 'Other'),
+    ('Language', 'Programming Languages'),
+    ('Frameworks', 'Frameworks & Libraries'),
+    ('Front-End', 'Front-End'),
+    ('Tools', 'Tools & Platforms'),
+    ('Databases', 'Databases'),
+    ('Cloud', 'Cloud & DevOps'),
+    ('Concepts', 'Concepts & Methodologies'),
+    ('Soft Skills', 'Soft Skills'),
+    ('Hardware & Networking', 'Hardware & Networking'),
+    ('Other', 'Other'),
 ]
     category = models.CharField(
-        max_length=20,
+        max_length=30,
         choices=SKILL_CATEGORIES,
-        default='languages'
+        default='Language'
     )
     name = models.CharField(max_length=100, help_text="e.g., Python, React, Docker")
 

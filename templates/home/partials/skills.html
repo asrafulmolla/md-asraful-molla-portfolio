@@ -1,7 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Django Skills Section - Animated</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    .skill-badge {
+      position: relative;
+      overflow: hidden;
+      transform: translateY(0);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .skill-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s;
+    }
+
+    .skill-badge:hover::before {
+      left: 100%;
+    }
+
+    .skill-badge:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .skill-badge::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 0.5rem;
+      padding: 2px;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .skill-badge:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .skill-badge:nth-child(odd) {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .skill-badge:nth-child(even) {
+      animation: float 3s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+
+    .skill-badge:active {
+      transform: translateY(-4px) scale(0.98);
+    }
+
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(255, 255, 255, 0.3),
+                     0 0 30px rgba(255, 255, 255, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(255, 255, 255, 0.5),
+                     0 0 40px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) translateX(30px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
 <section id="skills" class="py-24 bg-transparent relative overflow-hidden" data-aos="fade-up">
   <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/5 via-transparent to-hf-accent/5 blur-3xl"></div>
   <div class="max-w-6xl mx-auto px-6 relative z-10">
-    <h2 class="text-5xl font-extrabold mb-16 text-center tracking-wider text-white drop-shadow-md" data-aos="fade-down">
+    <h2 class="text-5xl font-extrabold mb-16 text-center tracking-wider text-white drop-shadow-md glow-effect" data-aos="fade-down">
       Skills
     </h2>
 
@@ -11,21 +127,10 @@
           <h3 class="text-2xl font-bold text-white mb-4">{{ category }}</h3>
           <div class="flex flex-wrap gap-3">
             {% for skill_name in skills_list %}
-              {% with lang=skill_name|lower %}
-                <span class="px-4 py-2.5 rounded-lg font-medium tracking-wide text-white 
-                  {% if lang == 'python' %}bg-blue-600
-                  {% elif lang == 'c++' %}bg-blue-800
-                  {% elif lang == 'c' %}bg-gray-700
-                  {% elif lang == 'javascript' %}bg-yellow-500 text-gray-900
-                  {% elif lang == 'react' %}bg-cyan-500
-                  {% elif lang == 'django' %}bg-green-600
-                  {% elif lang == 'git' %}bg-orange-700
-                  {% else %}bg-hf-button
-                  {% endif %}
-                  transition-all duration-300 cursor-default shadow-md">
-                  {{ skill_name }}
-                </span>
-              {% endwith %}
+              <span class="skill-badge px-4 py-2.5 rounded-lg font-medium tracking-wide text-white transition-all duration-300 cursor-default shadow-md" 
+                    data-skill="{{ skill_name|lower }}">
+                {{ skill_name }}
+              </span>
             {% endfor %}
           </div>
         </div>
@@ -35,3 +140,188 @@
     </div>
   </div>
 </section>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Dynamic color mapping
+  const skillColorMap = {
+    // Programming Languages
+    'python': 'bg-blue-600',
+    'c++': 'bg-blue-800',
+    'cpp': 'bg-blue-800',
+    'c': 'bg-gray-700',
+    'javascript': 'bg-yellow-500 text-gray-900',
+    'js': 'bg-yellow-500 text-gray-900',
+    'typescript': 'bg-blue-600',
+    'ts': 'bg-blue-600',
+    'java': 'bg-orange-600',
+    'php': 'bg-indigo-700',
+    'ruby': 'bg-red-600',
+    'go': 'bg-cyan-600',
+    'golang': 'bg-cyan-600',
+    'rust': 'bg-orange-800',
+    'kotlin': 'bg-purple-600',
+    'swift': 'bg-orange-500',
+    'dart': 'bg-blue-500',
+    
+    // Frameworks & Libraries
+    'react': 'bg-cyan-500',
+    'reactjs': 'bg-cyan-500',
+    'django': 'bg-green-600',
+    'nextjs': 'bg-purple-600',
+    'next.js': 'bg-purple-600',
+    'vue': 'bg-emerald-600',
+    'vuejs': 'bg-emerald-600',
+    'angular': 'bg-red-700',
+    'flask': 'bg-gray-800',
+    'fastapi': 'bg-teal-600',
+    'express': 'bg-gray-700',
+    'expressjs': 'bg-gray-700',
+    'laravel': 'bg-red-500',
+    'spring': 'bg-green-600',
+    'spring boot': 'bg-green-600',
+    'nodejs': 'bg-green-700',
+    'node.js': 'bg-green-700',
+    'node': 'bg-green-700',
+    
+    // Frontend
+    'html': 'bg-orange-600',
+    'html5': 'bg-orange-600',
+    'css': 'bg-blue-500',
+    'css3': 'bg-blue-500',
+    'tailwindcss': 'bg-indigo-600',
+    'tailwind': 'bg-indigo-600',
+    'bootstrap': 'bg-purple-700',
+    'sass': 'bg-pink-500',
+    'scss': 'bg-pink-500',
+    'jquery': 'bg-blue-600',
+    
+    // Databases
+    'postgresql': 'bg-green-700',
+    'postgres': 'bg-green-700',
+    'mysql': 'bg-blue-500',
+    'mongodb': 'bg-green-500',
+    'mongo': 'bg-green-500',
+    'redis': 'bg-red-600',
+    'sqlite': 'bg-blue-400',
+    'oracle': 'bg-red-600',
+    'sql': 'bg-blue-500',
+    
+    // Cloud & DevOps
+    'aws': 'bg-orange-500',
+    'azure': 'bg-blue-600',
+    'gcp': 'bg-blue-500',
+    'docker': 'bg-blue-700',
+    'kubernetes': 'bg-blue-700',
+    'k8s': 'bg-blue-700',
+    'jenkins': 'bg-red-700',
+    'terraform': 'bg-purple-600',
+    'ansible': 'bg-red-600',
+    
+    // Tools
+    'git': 'bg-orange-700',
+    'github': 'bg-gray-800',
+    'gitlab': 'bg-orange-600',
+    'bitbucket': 'bg-blue-600',
+    'jira': 'bg-blue-700',
+    'figma': 'bg-purple-500',
+    'adobe xd': 'bg-pink-600',
+    'photoshop': 'bg-blue-600',
+    
+    // Hosting
+    'firebase': 'bg-yellow-600',
+    'heroku': 'bg-purple-600',
+    'vercel': 'bg-gray-900',
+    'netlify': 'bg-teal-500',
+    
+    // Others
+    'graphql': 'bg-pink-600',
+    'rest api': 'bg-green-600',
+    'api': 'bg-green-600',
+    'webpack': 'bg-blue-500',
+    'vite': 'bg-purple-600',
+    'babel': 'bg-yellow-600'
+  };
+
+  // Vibrant color palette for unknown skills
+  const vibrantColors = [
+    'bg-purple-600', 'bg-pink-600', 'bg-indigo-600', 'bg-blue-600',
+    'bg-cyan-600', 'bg-teal-600', 'bg-green-600', 'bg-lime-600',
+    'bg-yellow-600', 'bg-orange-600', 'bg-red-600', 'bg-rose-600',
+    'bg-fuchsia-600', 'bg-violet-600', 'bg-sky-600', 'bg-emerald-600'
+  ];
+
+  // Function to get consistent color for a skill
+  function getSkillColor(skillName) {
+    const lowerSkill = skillName.toLowerCase().trim();
+    
+    // Check if we have a predefined color
+    if (skillColorMap[lowerSkill]) {
+      return skillColorMap[lowerSkill];
+    }
+    
+    // Generate consistent color based on skill name hash
+    let hash = 0;
+    for (let i = 0; i < lowerSkill.length; i++) {
+      hash = lowerSkill.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const colorIndex = Math.abs(hash) % vibrantColors.length;
+    return vibrantColors[colorIndex];
+  }
+
+  // Apply colors to skill badges
+  document.addEventListener('DOMContentLoaded', function() {
+    const skillBadges = document.querySelectorAll('.skill-badge');
+    
+    skillBadges.forEach(badge => {
+      const skillName = badge.getAttribute('data-skill');
+      const colorClasses = getSkillColor(skillName);
+      
+      // Add color classes
+      colorClasses.split(' ').forEach(cls => {
+        badge.classList.add(cls);
+      });
+      
+      // Add particle effect on hover
+      badge.addEventListener('mouseenter', function(e) {
+        const rect = this.getBoundingClientRect();
+        createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      });
+    });
+  });
+
+  // Function to create particle effects
+  function createParticles(x, y) {
+    for (let i = 0; i < 8; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.width = '4px';
+      particle.style.height = '4px';
+      particle.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.animation = `particleFloat ${1 + Math.random()}s ease-out forwards`;
+      particle.style.animationDelay = `${Math.random() * 0.2}s`;
+      
+      const angle = (Math.PI * 2 * i) / 8;
+      const distance = 50 + Math.random() * 50;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      
+      particle.style.setProperty('transform', `translate(${tx}px, ${ty}px)`);
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => particle.remove(), 1500);
+    }
+  }
+</script>
+
+</body>
+</html>
