@@ -1,0 +1,19 @@
+<section id="recommendations" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Recommendations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {% for rec in recommendations %}
+        <div class="p-6 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent italic">
+          <p>“Asraful is a brilliant and dedicated professional with exceptional problem-solving skills and a collaborative mindset.”</p>
+          <div class="mt-5">
+            <p class="font-semibold">{{ rec.name }}</p>
+            <p class="text-sm text-gray-300">{{ rec.position }}, {{ rec.organization }}</p>
+            <p class="text-xs text-gray-400">{{ rec.email }} {% if rec.phone %}• {{ rec.phone }}{% endif %}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p class="col-span-2 text-center text-gray-400">No recommendations available.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

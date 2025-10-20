@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load string_extras %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+
+  <!-- About -->
+  {% if profile %}
+    {% include 'home/partials/about.html' %}
+  {% endif %}
+
+  <!-- Education -->
+  {% if educations %}
+    {% include 'home/partials/education.html' %}
+    {% if experiences or skills or projects or problem_solving or achievements or leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Experience -->
+  {% if experiences %}
+    {% include 'home/partials/experience.html' %}
+    {% if skills or projects or problem_solving or achievements or leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Skills -->
+  {% if skills %}
+    {% include 'home/partials/skills.html' %}
+    {% if projects or problem_solving or achievements or leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Projects -->
+  {% if projects %}
+    {% include 'home/partials/projects.html' %}
+    {% if problem_solving or achievements or leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Problem Solving -->
+  {% if problem_solving %}
+    {% include 'home/partials/problem_solving.html' %}
+    {% if achievements or leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Achievements -->
+  {% if achievements %}
+    {% include 'home/partials/achievements.html' %}
+    {% if leaderships or certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Leadership -->
+  {% if leaderships %}
+    {% include 'home/partials/leadership.html' %}
+    {% if certifications or publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Certifications -->
+  {% if certifications %}
+    {% include 'home/partials/certifications.html' %}
+    {% if publications or blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Publications -->
+  {% if publications %}
+    {% include 'home/partials/publications.html' %}
+    {% if blogs or recommendations %}
+      <div class="section-divider"></div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Recommendations -->
+  {% if recommendations %}
+    {% include 'home/partials/recommendations.html' %}
+    <!-- No divider after last section -->
+  {% endif %}
+
+  <!-- Contact (always shown) -->
+  {% include 'home/partials/contact.html' %}
+
+</div>
+{% endblock %}

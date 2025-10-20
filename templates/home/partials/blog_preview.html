@@ -1,0 +1,29 @@
+<section id="blog" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Latest Articles</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for blog in blogs %}
+        <a href="{% url 'blog_detail' blog.slug %}" class="block group">
+          <div class="bg-hf-button rounded-xl overflow-hidden shadow hover:shadow-xl transition-all h-full border border-gray-800">
+            {% if blog.cover_image %}
+              <img src="{{ blog.cover_image.url }}" alt="{{ blog.title }}" class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-5">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-hf-accent transition text-white">
+                {{ blog.title }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                By {{ blog.author }} • {{ blog.created_at|date:"M d, Y" }}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-10">
+      <a href="{% url 'blog_list' %}" class="inline-block px-6 py-3 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700">
+        View All Articles
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Blog & Articles{% endblock %}
+{% block content %}
+<div class="pt-20 pb-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Blog & Articles</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">
+        Thoughts on full-stack development, AI, IoT, open-source, and my journey as a developer.
+      </p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    {% if blogs %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for blog in blogs %}
+          <a href="{% url 'blog_detail' blog.slug %}" class="block group">
+            <div class="bg-hf-button rounded-xl overflow-hidden shadow hover:shadow-xl transition-all h-full border border-gray-800">
+              {% if blog.cover_image %}
+                <img src="{{ blog.cover_image.url }}" alt="{{ blog.title }}" 
+                     class="w-full h-48 object-cover">
+              {% else %}
+                <div class="w-full h-48 bg-gray-900 flex items-center justify-center">
+                  <span class="text-gray-600">No Image</span>
+                </div>
+              {% endif %}
+              <div class="p-5">
+                <h2 class="font-bold text-lg mb-2 group-hover:text-hf-accent transition text-white">
+                  {{ blog.title }}
+                </h2>
+                <p class="text-sm text-gray-400 mb-3">
+                  By {{ blog.author }} • {{ blog.created_at|date:"M d, Y" }}
+                </p>
+                <!-- Optional: Show first 100 chars of content -->
+                <!-- <p class="text-gray-300 text-sm">{{ blog.content|striptags|truncatewords:20 }}</p> -->
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-16">
+        <p class="text-gray-500 text-lg">No articles published yet.</p>
+        <a href="/" class="mt-4 inline-block text-hf-accent hover:underline">← Back to Portfolio</a>
+      </div>
+    {% endif %}
+
+    <!-- Back to Home -->
+    <div class="text-center mt-12">
+      <a href="/" class="px-6 py-3 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700">
+        ← Back to Portfolio
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

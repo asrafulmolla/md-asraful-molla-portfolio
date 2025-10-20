@@ -1,0 +1,44 @@
+<section id="achievements" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
+  <!-- Subtle background glow -->
+  <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md" data-aos="fade-down">
+      Achievements & Awards
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for ach in achievements %}
+        <div class="relative group p-6 bg-hf-button/60 backdrop-blur-lg rounded-2xl border-l-4 border-hf-accent 
+                    shadow-lg hover:shadow-[0_0_25px_var(--hf-accent)] hover:-translate-y-1 transition-all duration-500"
+             data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:1 }}00">
+
+          <!-- Glow accent -->
+          <div class="absolute inset-0 bg-gradient-to-r from-hf-accent via-pink-500 to-hf-accent opacity-0 
+                      group-hover:opacity-30 blur-xl transition-all duration-700 rounded-2xl"></div>
+
+          <!-- Content -->
+          <div class="relative z-10">
+            <h3 class="text-2xl font-semibold text-white mb-2 group-hover:text-hf-accent transition-colors duration-300">
+              {{ ach.title }}
+            </h3>
+            <p class="text-gray-300 mb-1">{{ ach.event }} • {{ ach.organization }} • {{ ach.year }}</p>
+            <p class="text-sm text-gray-400">Rank: {{ ach.rank }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p class="col-span-3 text-center text-gray-400">No achievements listed.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+</style>

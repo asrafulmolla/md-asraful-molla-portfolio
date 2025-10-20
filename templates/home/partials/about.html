@@ -1,0 +1,85 @@
+<section id="about" class="py-24 bg-transparent relative overflow-hidden" data-aos="fade-up">
+  <!-- Floating background glow -->
+  <div class="absolute inset-0 bg-gradient-to-r from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    {% comment %} <h2 class="text-5xl font-extrabold mb-16 text-center tracking-wider text-white drop-shadow-md" data-aos="fade-down">
+      About Me
+    </h2> {% endcomment %}
+
+    <div class="flex flex-col md:flex-row gap-16 items-center justify-center" data-aos="zoom-in-up">
+      {% if profile.photo %}
+        <div class="relative group">
+          <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-hf-accent via-pink-500 to-hf-accent opacity-70 blur-lg group-hover:opacity-100 transition duration-700 animate-pulse"></div>
+          <img src="{{ profile.photo.url }}" alt="{{ profile.name }}"
+            class="relative w-56 h-56 rounded-full object-cover border-4 border-white/80 shadow-[0_0_40px_rgba(255,255,255,0.1)] transform transition duration-500 group-hover:scale-110 group-hover:rotate-3">
+        </div>
+      {% endif %}
+
+      <div class="text-center md:text-left max-w-2xl" data-aos="fade-left" data-aos-delay="200">
+        <h3 class="text-3xl font-bold text-white mb-3 tracking-wide">{{ profile.name }}</h3>
+        <p class="text-xl text-hf-accent font-medium mb-6 italic">{{ profile.title }}</p>
+        <p class="text-gray-300 leading-relaxed mb-8">
+          {{ profile.bio }}
+        </p>
+
+        <!-- ✅ Contact Me Button -->
+        <div class="mb-8 flex justify-center md:justify-start">
+          <a href="#contact" 
+             class="group relative px-8 py-3 rounded-xl font-bold tracking-wide text-hf-bg bg-hf-accent 
+                    transition-all duration-500 shadow-lg hover:shadow-[0_0_25px_rgba(255,107,53,0.6)] 
+                    hover:-translate-y-1 hover:scale-105 backdrop-blur-sm">
+            Contact Me
+          </a>
+        </div>
+
+        <!-- ✅ Social Buttons Below -->
+        <div class="flex flex-wrap justify-center md:justify-start gap-5">
+          {% if profile.github %}
+            <a href="{{ profile.github }}" target="_blank" rel="noopener"
+              class="group relative px-6 py-2.5 rounded-xl font-semibold tracking-wide text-white transition-all duration-500 
+              bg-gradient-to-r from-hf-button/70 to-hf-accent/70 backdrop-blur-md shadow-lg border border-white/10 
+              hover:shadow-[0_0_20px_var(--hf-accent)] hover:from-hf-accent hover:to-pink-500 hover:-translate-y-1 hover:scale-105">
+              <span class="relative z-10">GitHub</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-hf-accent to-pink-500 opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></span>
+            </a>
+          {% endif %}
+          {% if profile.linkedin %}
+            <a href="{{ profile.linkedin }}" target="_blank" rel="noopener"
+              class="group relative px-6 py-2.5 rounded-xl font-semibold tracking-wide text-white transition-all duration-500 
+              bg-gradient-to-r from-hf-button/70 to-hf-accent/70 backdrop-blur-md shadow-lg border border-white/10 
+              hover:shadow-[0_0_20px_var(--hf-accent)] hover:from-hf-accent hover:to-pink-500 hover:-translate-y-1 hover:scale-105">
+              <span class="relative z-10">LinkedIn</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-hf-accent to-pink-500 opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></span>
+            </a>
+          {% endif %}
+          {% if profile.email %}
+            <a href="mailto:{{ profile.email }}"
+              class="group relative px-6 py-2.5 rounded-xl font-semibold tracking-wide text-white transition-all duration-500 
+              bg-gradient-to-r from-hf-button/70 to-hf-accent/70 backdrop-blur-md shadow-lg border border-white/10 
+              hover:shadow-[0_0_20px_var(--hf-accent)] hover:from-hf-accent hover:to-pink-500 hover:-translate-y-1 hover:scale-105">
+              <span class="relative z-10">Email</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-hf-accent to-pink-500 opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></span>
+            </a>
+          {% endif %}
+          {% if profile.phone %}
+            <span class="px-6 py-2.5 rounded-xl bg-hf-button/70 text-white font-semibold tracking-wide border border-white/10 backdrop-blur-md
+              hover:bg-hf-accent/80 hover:shadow-[0_0_15px_var(--hf-accent)] transition-all duration-500 hover:-translate-y-1 hover:scale-105">
+              📞 {{ profile.phone }}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+</style>

@@ -1,0 +1,59 @@
+<section id="contact" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
+  <!-- Subtle background glow -->
+  <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
+
+  <div class="max-w-2xl mx-auto relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md" data-aos="fade-down">
+      Get In Touch
+    </h2>
+
+    <form method="post" action="{% url 'contact' %}" class="space-y-6 p-8 bg-hf-button/60 backdrop-blur-lg rounded-2xl border border-white/10 shadow-xl">
+      {% csrf_token %}
+      
+      <div>
+        <label class="block mb-2 font-medium text-white">Name</label>
+        <input type="text" name="name" required
+               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
+                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      </div>
+
+      <div>
+        <label class="block mb-2 font-medium text-white">Email</label>
+        <input type="email" name="email" required
+               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
+                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      </div>
+
+      <div>
+        <label class="block mb-2 font-medium text-white">Subject</label>
+        <input type="text" name="subject" required
+               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
+                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      </div>
+
+      <div>
+        <label class="block mb-2 font-medium text-white">Message</label>
+        <textarea name="message" rows="5" required
+                  class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
+                         focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]"></textarea>
+      </div>
+
+      <button type="submit"
+              class="w-full py-3 font-medium rounded-lg bg-gradient-to-r from-hf-button/70 to-hf-accent/70
+                     text-white border border-white/20 shadow-md hover:shadow-[0_0_20px_var(--hf-accent)]
+                     hover:scale-105 transition-all duration-500">
+        Send Message
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+</style>

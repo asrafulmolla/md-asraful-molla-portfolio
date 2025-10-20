@@ -1,0 +1,16 @@
+<section id="experience" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Professional Experience</h2>
+    <div class="space-y-6 max-w-3xl mx-auto">
+      {% for exp in experiences %}
+        <div class="p-5 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent">
+          <h3 class="text-xl font-semibold">{{ exp.position }}</h3>
+          <p>{{ exp.company }} • {{ exp.period }}</p>
+          <p class="mt-2">{{ exp.responsibilities }}</p>
+        </div>
+      {% empty %}
+        <p class="text-center text-gray-400">No experience listed.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

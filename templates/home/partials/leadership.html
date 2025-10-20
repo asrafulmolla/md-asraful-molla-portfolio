@@ -1,0 +1,16 @@
+<section id="leadership" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Leadership & Community Involvement</h2>
+    <div class="space-y-5 max-w-3xl mx-auto">
+      {% for lead in leaderships %}
+        <div class="p-5 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent">
+          <h3 class="text-lg font-semibold">{{ lead.role }}</h3>
+          <p>{{ lead.organization }} • {{ lead.duration }}</p>
+          <p class="mt-2">{{ lead.description }}</p>
+        </div>
+      {% empty %}
+        <p class="text-center text-gray-400">No leadership roles listed.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

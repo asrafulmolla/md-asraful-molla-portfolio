@@ -1,0 +1,31 @@
+<section id="problem-solving" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Problem Solving</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-hf-button rounded-xl shadow">
+        <thead>
+          <tr class="border-b border-gray-600">
+            <th class="py-3 px-4 text-left">Platform</th>
+            <th class="py-3 px-4 text-left">Problems Solved</th>
+            <th class="py-3 px-4 text-left">Rating</th>
+            <th class="py-3 px-4 text-left">Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ps in problem_solving %}
+            <tr class="border-b border-gray-700 hover:bg-gray-800">
+              <td class="py-3 px-4">{{ ps.site_name }}</td>
+              <td class="py-3 px-4">{{ ps.problems_solved }}</td>
+              <td class="py-3 px-4">{{ ps.rating }}</td>
+              <td class="py-3 px-4">
+                <a href="{{ ps.link }}" target="_blank" rel="noopener" class="text-hf-accent hover:underline">View</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" class="py-4 text-center text-gray-400">No records found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

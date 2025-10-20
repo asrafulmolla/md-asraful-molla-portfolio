@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}{{ blog.title }}{% endblock %}
+{% block content %}
+<div class="pt-20 pb-16">
+  <div class="max-w-4xl mx-auto px-4">
+    <!-- Back to Blog Listing -->
+    <a href="{% url 'blog_list' %}" class="inline-flex items-center text-hf-accent hover:underline mb-6 transition">
+      ← Back to Articles
+    </a>
+
+    <!-- Blog Cover Image -->
+    {% if blog.cover_image %}
+      <img src="{{ blog.cover_image.url }}" alt="{{ blog.title }}" 
+           class="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg mb-8 border border-gray-800">
+    {% endif %}
+
+    <!-- Title -->
+    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-white">{{ blog.title }}</h1>
+
+    <!-- Meta Info -->
+    <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-8">
+      <span>By {{ blog.author }}</span>
+      <span>•</span>
+      <span>{{ blog.created_at|date:"F d, Y" }}</span>
+      {% if blog.updated_at > blog.created_at %}
+        <span>•</span>
+        <span>Updated {{ blog.updated_at|date:"F d, Y" }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Blog Content (Rich Text from CKEditor) -->
+    <div class="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed">
+      {{ blog.content|safe }}
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider mt-12 mb-8"></div>
+
+    <!-- Navigation -->
+    <div class="flex flex-col sm:flex-row justify-between gap-4">
+      <a href="/" class="px-5 py-2.5 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700 text-center">
+        ← Back to Portfolio
+      </a>
+      <a href="{% url 'blog_list' %}" class="px-5 py-2.5 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700 text-center">
+        View All Articles
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

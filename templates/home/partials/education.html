@@ -1,0 +1,18 @@
+<section id="education" class="py-16" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Education</h2>
+    <div class="space-y-6 max-w-3xl mx-auto">
+      {% for edu in educations %}
+        <div class="p-5 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent">
+          <h3 class="text-xl font-semibold">{{ edu.degree }}</h3>
+          <p>{{ edu.institution }}</p>
+          <p class="text-sm text-gray-300">
+            {{ edu.grade_label }}: {{ edu.grade }} • {{ edu.study_period }}
+          </p>
+        </div>
+      {% empty %}
+        <p class="text-center text-gray-400">No education records.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

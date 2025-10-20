@@ -1,0 +1,65 @@
+<section id="certifications" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
+  <!-- Background ambient glow -->
+  <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md" data-aos="fade-down">
+      Certifications
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for cert in certifications %}
+        <div class="relative group rounded-2xl p-6 bg-hf-button/60 backdrop-blur-lg border border-white/10
+                    shadow-xl hover:shadow-[0_0_35px_var(--hf-accent)] hover:-translate-y-2 transition-all duration-500"
+             data-aos="zoom-in" data-aos-delay="{{ forloop.counter|add:1 }}00">
+
+          <!-- Glow overlay -->
+          <div class="absolute inset-0 bg-gradient-to-r from-hf-accent via-pink-500 to-hf-accent opacity-0
+                      group-hover:opacity-30 blur-2xl transition-all duration-700 rounded-2xl"></div>
+
+          <!-- Card content -->
+          <div class="relative z-10 flex flex-col justify-between h-full">
+            <div>
+              <h3 class="text-2xl font-semibold text-white mb-1 group-hover:text-hf-accent transition-colors duration-300">
+                {{ cert.name }}
+              </h3>
+              <p class="text-gray-300 text-sm">{{ cert.issuer }}</p>
+              <p class="text-gray-400 text-xs">{{ cert.issue_date }}</p>
+            </div>
+
+            {% if cert.credential_id or cert.credential_link %}
+              <div class="mt-4 flex flex-wrap gap-3">
+                {% if cert.credential_id %}
+                  <span class="text-xs font-medium bg-gray-700/70 text-white px-3 py-1 rounded-xl 
+                               shadow hover:shadow-[0_0_15px_var(--hf-accent)] transition duration-300">
+                    ID: {{ cert.credential_id }}
+                  </span>
+                {% endif %}
+                {% if cert.credential_link %}
+                  <a href="{{ cert.credential_link }}" target="_blank" rel="noopener"
+                     class="text-xs font-medium px-3 py-1 rounded-xl bg-gradient-to-r from-hf-button/70 to-hf-accent/70
+                            text-white shadow hover:shadow-[0_0_15px_var(--hf-accent)] hover:-translate-y-1 hover:scale-105
+                            transition-all duration-500">
+                    Verify
+                  </a>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p class="col-span-3 text-center text-gray-400">No certifications available.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+</style>
