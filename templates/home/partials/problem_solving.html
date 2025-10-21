@@ -1,31 +1,424 @@
-<section id="problem-solving" class="py-16" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8 text-center">Problem Solving</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-hf-button rounded-xl shadow">
-        <thead>
-          <tr class="border-b border-gray-600">
-            <th class="py-3 px-4 text-left">Platform</th>
-            <th class="py-3 px-4 text-left">Problems Solved</th>
-            <th class="py-3 px-4 text-left">Rating</th>
-            <th class="py-3 px-4 text-left">Profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for ps in problem_solving %}
-            <tr class="border-b border-gray-700 hover:bg-gray-800">
-              <td class="py-3 px-4">{{ ps.site_name }}</td>
-              <td class="py-3 px-4">{{ ps.problems_solved }}</td>
-              <td class="py-3 px-4">{{ ps.rating }}</td>
-              <td class="py-3 px-4">
-                <a href="{{ ps.link }}" target="_blank" rel="noopener" class="text-hf-accent hover:underline">View</a>
-              </td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="4" class="py-4 text-center text-gray-400">No records found.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Problem Solving Section</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+    }
+
+    /* Glowing title */
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3),
+                     0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5),
+                     0 0 40px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* Platform cards grid */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Platform card */
+    .platform-card {
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: slideUp 0.8s ease-out backwards;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .platform-card:nth-child(1) { animation-delay: 0.1s; }
+    .platform-card:nth-child(2) { animation-delay: 0.2s; }
+    .platform-card:nth-child(3) { animation-delay: 0.3s; }
+    .platform-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Gradient border */
+    .platform-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1.5rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #10b981, #06b6d4, #8b5cf6, #ec4899, #10b981);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+      animation: border-rotate 4s ease infinite;
+    }
+
+    @keyframes border-rotate {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .platform-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Platform icon */
+    .platform-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+      animation: icon-float 3s ease-in-out infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes icon-float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* Platform name gradient */
+    .platform-name {
+      background: linear-gradient(90deg, #fff, #10b981, #06b6d4, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.5s;
+    }
+
+    .platform-card:hover .platform-name {
+      animation: gradient-flow 2s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Stats display */
+    .stat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 0.75rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .platform-card:hover .stat-item {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateX(5px);
+    }
+
+    .stat-label {
+      color: #9ca3af;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      color: #10b981;
+      font-size: 1.125rem;
+      font-weight: bold;
+    }
+
+    /* Rating badge */
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: 2rem;
+      color: #f59e0b;
+      font-weight: bold;
+      font-size: 1rem;
+      animation: badge-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badge-pulse {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+        transform: scale(1.05);
+      }
+    }
+
+    /* View profile button */
+    .view-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.4s;
+    }
+
+    .view-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .view-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .view-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    /* Shimmer effect */
+    .shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(16, 185, 129, 0.2) 50%, 
+        transparent 100%);
+      transition: left 0.8s;
+      pointer-events: none;
+    }
+
+    .platform-card:hover .shimmer {
+      left: 100%;
+    }
+
+    /* Hover effect */
+    .platform-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Progress bar for problems solved */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(16, 185, 129, 0.2);
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      border-radius: 1rem;
+      transition: width 1s ease-out;
+      animation: pulse-progress 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-progress {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
+<section id="problem-solving" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
+  <!-- Background ambient glow -->
+  <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow-effect" data-aos="fade-down">
+      Problem Solving Stats
+    </h2>
+
+    <div class="platform-grid">
+      {% for ps in problem_solving %}
+        <div class="platform-card group relative rounded-3xl p-6 backdrop-blur-xl border border-white/10
+                    shadow-2xl bg-gradient-to-br from-slate-900/95 via-emerald-900/10 to-slate-900/95
+                    hover:border-emerald-400/50 cursor-default overflow-hidden"
+             data-aos="zoom-in" 
+             data-aos-delay="{{ forloop.counter|add:1 }}00">
+
+          <!-- Shimmer effect -->
+          <div class="shimmer"></div>
+
+          <!-- Platform Icon -->
+          <div class="platform-icon">
+            {{ ps.site_name|slice:":2"|upper }}
+          </div>
+
+          <!-- Platform Name -->
+          <h3 class="platform-name text-2xl font-bold text-white mb-4">
+            {{ ps.site_name }}
+          </h3>
+
+          <!-- Stats -->
+          <div class="space-y-3 mb-4">
+            <!-- Problems Solved -->
+            <div class="stat-item">
+              <span class="stat-label">Problems Solved</span>
+              <span class="stat-value">{{ ps.problems_solved }}</span>
+            </div>
+            
+            <!-- Progress bar for visual representation -->
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: {{ ps.problems_solved|slice:":2" }}%;" data-progress="{{ ps.problems_solved }}"></div>
+            </div>
+
+            <!-- Rating Badge -->
+            {% if ps.rating %}
+              <div class="flex justify-center mt-3">
+                <div class="rating-badge">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                  </svg>
+                  <span>{{ ps.rating }}</span>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- View Profile Button -->
+          <div class="mt-6 flex justify-center">
+            <a href="{{ ps.link }}" 
+               target="_blank" 
+               rel="noopener"
+               class="view-button">
+              <span class="relative z-10">View Profile</span>
+              <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-span-full empty-state">
+          <svg class="w-20 h-20 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <p class="text-xl font-semibold">No problem solving records found</p>
+          <p class="text-sm mt-2">Start solving problems on competitive programming platforms!</p>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </section>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Animate progress bars
+  document.addEventListener('DOMContentLoaded', function() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const progress = entry.target.getAttribute('data-progress');
+          const percentage = Math.min(parseInt(progress) / 10, 100); // Scale appropriately
+          entry.target.style.width = percentage + '%';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    progressBars.forEach(bar => observer.observe(bar));
+
+    // Add 3D tilt effect
+    const cards = document.querySelectorAll('.platform-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        
+        this.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.03)`;
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

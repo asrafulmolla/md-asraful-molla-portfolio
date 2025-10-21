@@ -6,6 +6,7 @@
   <title>Animated Projects Section - Django</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
   <style>
     :root {
       --hf-accent: #8b5cf6;
@@ -254,8 +255,8 @@
 </head>
 <body>
 
-<!-- Django Template with Full Animations -->
-<section id="projects" class="relative py-24 overflow-hidden bg-transparent" data-aos="fade-up">
+<!-- Django Template with Full Animations and Show More/Less -->
+<section id="projects" class="relative py-24 overflow-hidden bg-transparent" data-aos="fade-up" x-data="{ expanded: false }">
   <!-- Subtle background glow -->
   <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
 
@@ -271,7 +272,14 @@
                     hover:shadow-[0_20px_60px_-15px_rgba(139,92,246,0.5)] 
                     bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95"
              data-aos="zoom-in" 
-             data-aos-delay="{{ forloop.counter|add:1 }}00">
+             data-aos-delay="{{ forloop.counter|add:1 }}00"
+             x-show="expanded || {{ forloop.counter }} <= 6"
+             x-transition:enter="transition ease-out duration-500"
+             x-transition:enter-start="opacity-0 transform scale-95"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-95">
 
           <!-- Shimmer overlay -->
           <div class="shimmer-overlay"></div>
@@ -337,6 +345,19 @@
         <p class="col-span-3 text-center text-gray-400">No projects available.</p>
       {% endfor %}
     </div>
+
+    <!-- See More / Show Less Button -->
+    {% if projects|length > 6 %}
+      <div class="text-center mt-12" data-aos="fade-up">
+        <button 
+          @click="expanded = !expanded"
+          class="button-ripple relative px-8 py-3 bg-gradient-to-r from-hf-button to-hf-accent text-white rounded-xl font-medium 
+                 border border-white/20 shadow-lg hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] 
+                 hover:-translate-y-1 hover:scale-105 transition-all duration-500 tracking-wide"
+          x-text="expanded ? 'Show Less ▲' : 'See More ▼'">
+        </button>
+      </div>
+    {% endif %}
   </div>
 </section>
 

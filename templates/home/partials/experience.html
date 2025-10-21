@@ -1,16 +1,427 @@
-<section id="experience" class="py-16" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8 text-center">Professional Experience</h2>
-    <div class="space-y-6 max-w-3xl mx-auto">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Experience Section</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+    }
+
+    /* Glowing title */
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3),
+                     0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5),
+                     0 0 40px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* Timeline vertical line */
+    .timeline-container {
+      position: relative;
+      padding-left: 60px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 30px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, 
+        transparent,
+        rgba(139, 92, 246, 0.3) 10%,
+        rgba(139, 92, 246, 0.8) 50%,
+        rgba(139, 92, 246, 0.3) 90%,
+        transparent
+      );
+    }
+
+    /* Timeline dots */
+    .timeline-dot {
+      position: absolute;
+      left: -45px;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      border-radius: 50%;
+      border: 4px solid #0f172a;
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3),
+                  0 0 30px rgba(139, 92, 246, 0.6);
+      animation: pulse-dot 2s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3),
+                    0 0 30px rgba(139, 92, 246, 0.6);
+      }
+      50% { 
+        transform: scale(1.2);
+        box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.5),
+                    0 0 40px rgba(139, 92, 246, 0.9);
+      }
+    }
+
+    /* Experience card animations */
+    .experience-card {
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: slideInRight 0.8s ease-out backwards;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .experience-card:nth-child(1) { animation-delay: 0.1s; }
+    .experience-card:nth-child(2) { animation-delay: 0.2s; }
+    .experience-card:nth-child(3) { animation-delay: 0.3s; }
+    .experience-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Gradient border animation */
+    .experience-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+      animation: border-flow 4s ease infinite;
+    }
+
+    @keyframes border-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .experience-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Briefcase icon */
+    .briefcase-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.6));
+      animation: briefcase-bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes briefcase-bounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* Position title gradient */
+    .position-title {
+      background: linear-gradient(90deg, #fff, #06b6d4, #8b5cf6, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.5s;
+    }
+
+    .experience-card:hover .position-title {
+      animation: gradient-flow 2s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Company badge */
+    .company-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      border-radius: 2rem;
+      color: #8b5cf6;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .experience-card:hover .company-badge {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(139, 92, 246, 0.3));
+      border-color: rgba(139, 92, 246, 0.6);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+      transform: scale(1.05);
+    }
+
+    /* Period badge */
+    .period-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(236, 72, 153, 0.15);
+      border: 2px solid rgba(236, 72, 153, 0.3);
+      border-radius: 2rem;
+      color: #ec4899;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .experience-card:hover .period-badge {
+      background: rgba(236, 72, 153, 0.25);
+      border-color: rgba(236, 72, 153, 0.6);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+      transform: scale(1.05);
+    }
+
+    /* Shimmer effect */
+    .shimmer-effect {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 92, 246, 0.2) 50%, 
+        transparent 100%);
+      transition: left 0.8s;
+      pointer-events: none;
+    }
+
+    .experience-card:hover .shimmer-effect {
+      left: 100%;
+    }
+
+    /* Responsibilities list */
+    .responsibilities-text {
+      line-height: 1.8;
+      color: #d1d5db;
+      transition: color 0.3s;
+    }
+
+    .experience-card:hover .responsibilities-text {
+      color: #f3f4f6;
+    }
+
+    /* Hover lift effect */
+    .experience-card:hover {
+      transform: translateX(10px) translateY(-8px);
+      box-shadow: -10px 20px 50px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Decorative corner accent */
+    .corner-accent {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, transparent 50%, rgba(139, 92, 246, 0.3) 50%);
+      border-radius: 0 1rem 0 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .experience-card:hover .corner-accent {
+      opacity: 1;
+    }
+
+    /* Floating particles */
+    @keyframes float-particle {
+      0%, 100% {
+        transform: translate(0, 0);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translate(10px, -20px);
+        opacity: 0.8;
+      }
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      animation: float-particle 3s ease-in-out infinite;
+    }
+
+    .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 60%; right: 15%; animation-delay: 1s; }
+    .particle:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
+<section id="experience" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
+  <!-- Background ambient glow -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow-effect" data-aos="fade-down">
+      Professional Experience
+    </h2>
+
+    <div class="timeline-container space-y-12 max-w-4xl mx-auto relative">
+      <!-- Timeline vertical line -->
+      <div class="timeline-line hidden md:block"></div>
+
       {% for exp in experiences %}
-        <div class="p-5 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent">
-          <h3 class="text-xl font-semibold">{{ exp.position }}</h3>
-          <p>{{ exp.company }} • {{ exp.period }}</p>
-          <p class="mt-2">{{ exp.responsibilities }}</p>
+        <div class="experience-card group relative rounded-2xl p-6 backdrop-blur-xl border border-white/10
+                    shadow-2xl bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95
+                    hover:border-purple-400/50 cursor-default overflow-hidden"
+             data-aos="fade-right" 
+             data-aos-delay="{{ forloop.counter|add:1 }}00">
+
+          <!-- Timeline dot -->
+          <div class="timeline-dot hidden md:block"></div>
+
+          <!-- Shimmer effect -->
+          <div class="shimmer-effect"></div>
+
+          <!-- Corner accent -->
+          <div class="corner-accent"></div>
+
+          <!-- Floating particles -->
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+
+          <!-- Briefcase Icon -->
+          <div class="mb-4">
+            <span class="briefcase-icon">💼</span>
+          </div>
+
+          <!-- Content -->
+          <div class="relative z-10">
+            <!-- Position Title -->
+            <h3 class="position-title text-3xl font-bold text-white mb-4">
+              {{ exp.position }}
+            </h3>
+            
+            <!-- Company & Period Badges -->
+            <div class="flex flex-wrap gap-3 mb-4">
+              <div class="company-badge">
+                <span>🏢</span>
+                <span>{{ exp.company }}</span>
+              </div>
+              
+              <div class="period-badge">
+                <span>📅</span>
+                <span>{{ exp.period }}</span>
+              </div>
+            </div>
+
+            <!-- Responsibilities -->
+            <div class="mt-4">
+              <h4 class="text-lg font-semibold text-purple-300 mb-2 flex items-center gap-2">
+                <span></span>
+                <span>Key Responsibilities</span>
+              </h4>
+              <p class="responsibilities-text">
+                {{ exp.responsibilities }}
+              </p>
+            </div>
+          </div>
         </div>
       {% empty %}
-        <p class="text-center text-gray-400">No experience listed.</p>
+        <p class="text-center text-gray-400 text-lg">No experience listed yet.</p>
       {% endfor %}
     </div>
   </div>
 </section>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Add 3D tilt effect
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.experience-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 30;
+        const rotateY = (centerX - x) / 30;
+        
+        this.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateX(10px) translateY(-8px)`;
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+
+      // Click to expand effect
+      card.addEventListener('click', function() {
+        this.classList.toggle('expanded');
+        if (this.classList.contains('expanded')) {
+          this.style.maxHeight = this.scrollHeight + 'px';
+        } else {
+          this.style.maxHeight = null;
+        }
+      });
+    });
+
+    // Animate timeline dots on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const dots = document.querySelectorAll('.timeline-dot');
+    dots.forEach(dot => observer.observe(dot));
+  });
+</script>
+
+</body>
+</html>

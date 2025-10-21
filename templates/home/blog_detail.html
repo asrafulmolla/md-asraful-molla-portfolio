@@ -1,50 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Detail - Animated</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      color: white;
+    }
+
+    /* Back link animation */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #8b5cf6;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .back-link:hover {
+      transform: translateX(-5px);
+      color: #a78bfa;
+    }
+
+    /* Cover image animation */
+    .cover-image-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      animation: imageZoomIn 1s ease-out;
+    }
+
+    @keyframes imageZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .cover-image {
+      transition: transform 0.6s ease;
+    }
+
+    .cover-image-wrapper:hover .cover-image {
+      transform: scale(1.05);
+    }
+
+    /* Image border glow */
+    .cover-image-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
+      background-size: 300% 300%;
+      opacity: 0.7;
+      z-index: -1;
+      animation: border-flow 4s ease infinite;
+    }
+
+    @keyframes border-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Title animation */
+    .blog-title {
+      animation: fadeInUp 0.8s ease-out 0.2s backwards;
+      background: linear-gradient(90deg, #fff, #06b6d4, #8b5cf6, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Meta badges */
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      transition: all 0.3s;
+      animation: fadeIn 0.8s ease-out 0.4s backwards;
+    }
+
+    .meta-badge:hover {
+      background: rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Content styling */
+    .blog-content {
+      animation: fadeInUp 1s ease-out 0.6s backwards;
+      line-height: 1.8;
+    }
+
+    /* Prose styling for rich text */
+    .blog-content h1, .blog-content h2, .blog-content h3 {
+      color: #fff;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+
+    .blog-content h1 { font-size: 2rem; }
+    .blog-content h2 { font-size: 1.5rem; }
+    .blog-content h3 { font-size: 1.25rem; }
+
+    .blog-content p {
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+
+    .blog-content a {
+      color: #8b5cf6;
+      text-decoration: underline;
+      transition: color 0.3s;
+    }
+
+    .blog-content a:hover {
+      color: #a78bfa;
+    }
+
+    .blog-content ul, .blog-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+
+    .blog-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-content blockquote {
+      border-left: 4px solid #8b5cf6;
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      color: #a78bfa;
+      font-style: italic;
+    }
+
+    .blog-content code {
+      background: rgba(139, 92, 246, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      font-family: 'Courier New', monospace;
+      color: #a78bfa;
+    }
+
+    .blog-content pre {
+      background: rgba(15, 23, 42, 0.8);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .blog-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .blog-content img {
+      border-radius: 0.75rem;
+      margin: 2rem 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Divider */
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+      animation: dividerGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes dividerGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Navigation buttons */
+    .nav-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+      animation: fadeInUp 1s ease-out 0.8s backwards;
+    }
+
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .nav-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Reading progress bar */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s;
+    }
+
+    /* Table of contents (optional) */
+    .toc {
+      position: sticky;
+      top: 100px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .toc-title {
+      font-weight: bold;
+      color: #8b5cf6;
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+    }
+
+    .toc-link {
+      display: block;
+      color: #d1d5db;
+      padding: 0.5rem 0;
+      transition: all 0.3s;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+    }
+
+    .toc-link:hover {
+      color: #8b5cf6;
+      border-left-color: #8b5cf6;
+      transform: translateX(5px);
+    }
+
+    /* Share buttons */
+    .share-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem 0;
+      animation: fadeInUp 1s ease-out 0.7s backwards;
+    }
+
+    .share-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      transition: all 0.3s;
+    }
+
+    .share-btn:hover {
+      background: rgba(139, 92, 246, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
 {% extends 'base.html' %}
 {% block title %}{{ blog.title }}{% endblock %}
 {% block content %}
-<div class="pt-20 pb-16">
-  <div class="max-w-4xl mx-auto px-4">
+
+<!-- Reading Progress Bar -->
+<div class="reading-progress" id="readingProgress"></div>
+
+<div class="pt-20 pb-16 relative overflow-hidden">
+  <!-- Background glow -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
+
+  <div class="max-w-4xl mx-auto px-6 relative z-10">
     <!-- Back to Blog Listing -->
-    <a href="{% url 'blog_list' %}" class="inline-flex items-center text-hf-accent hover:underline mb-6 transition">
-      ← Back to Articles
+    <a href="{% url 'blog_list' %}" 
+       class="back-link mb-8"
+       data-aos="fade-right">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      <span>Back to Articles</span>
     </a>
 
     <!-- Blog Cover Image -->
     {% if blog.cover_image %}
-      <img src="{{ blog.cover_image.url }}" alt="{{ blog.title }}" 
-           class="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg mb-8 border border-gray-800">
+      <div class="cover-image-wrapper mb-8" data-aos="zoom-in">
+        <img src="{{ blog.cover_image.url }}" 
+             alt="{{ blog.title }}" 
+             class="cover-image w-full h-64 md:h-96 object-cover">
+      </div>
     {% endif %}
 
     <!-- Title -->
-    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-white">{{ blog.title }}</h1>
+    <h1 class="blog-title text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+      {{ blog.title }}
+    </h1>
 
     <!-- Meta Info -->
-    <div class="flex flex-wrap gap-4 text-sm text-gray-400 mb-8">
-      <span>By {{ blog.author }}</span>
-      <span>•</span>
-      <span>{{ blog.created_at|date:"F d, Y" }}</span>
+    <div class="flex flex-wrap gap-3 mb-8">
+      <div class="meta-badge text-purple-300">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+        </svg>
+        <span>{{ blog.author }}</span>
+      </div>
+
+      <div class="meta-badge text-cyan-300">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+        </svg>
+        <span>{{ blog.created_at|date:"F d, Y" }}</span>
+      </div>
+
       {% if blog.updated_at > blog.created_at %}
-        <span>•</span>
-        <span>Updated {{ blog.updated_at|date:"F d, Y" }}</span>
+        <div class="meta-badge text-emerald-300">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Updated {{ blog.updated_at|date:"F d, Y" }}</span>
+        </div>
       {% endif %}
     </div>
 
     <!-- Blog Content (Rich Text from CKEditor) -->
-    <div class="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed">
+    <div class="blog-content text-lg" data-aos="fade-up">
       {{ blog.content|safe }}
     </div>
 
     <!-- Divider -->
     <div class="section-divider mt-12 mb-8"></div>
 
-    <!-- Navigation -->
+    <!-- Navigation Buttons -->
     <div class="flex flex-col sm:flex-row justify-between gap-4">
-      <a href="/" class="px-5 py-2.5 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700 text-center">
-        ← Back to Portfolio
+      <a href="/" 
+         class="nav-button px-6 py-3 rounded-xl font-semibold text-white text-center
+                bg-gradient-to-r from-purple-600 to-pink-600 border border-white/20 shadow-lg">
+        <span class="relative z-10 flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          <span>Back to Portfolio</span>
+        </span>
       </a>
-      <a href="{% url 'blog_list' %}" class="px-5 py-2.5 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700 text-center">
-        View All Articles
+
+      <a href="{% url 'blog_list' %}" 
+         class="nav-button px-6 py-3 rounded-xl font-semibold text-white text-center
+                bg-gradient-to-r from-cyan-600 to-blue-600 border border-white/20 shadow-lg">
+        <span class="relative z-10 flex items-center justify-center gap-2">
+          <span>View All Articles</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </span>
       </a>
     </div>
   </div>
 </div>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Reading progress bar
+  window.addEventListener('scroll', function() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('readingProgress').style.width = scrolled + '%';
+  });
+
+  // Share functions
+  function shareOnTwitter() {
+    const url = window.location.href;
+    const text = document.querySelector('.blog-title').textContent;
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+  }
+
+  function shareOnFacebook() {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+  }
+
+  function shareOnLinkedIn() {
+    const url = window.location.href;
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+  }
+</script>
+
 {% endblock %}
+
+</body>
+</html>

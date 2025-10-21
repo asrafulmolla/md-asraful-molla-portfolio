@@ -1,12 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog & Articles - Animated</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      color: white;
+    }
+
+    /* Glowing title */
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5);
+      }
+    }
+
+    /* Blog card animation */
+    .blog-card {
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: fadeInUp 0.8s ease-out backwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .blog-card:nth-child(1) { animation-delay: 0.1s; }
+    .blog-card:nth-child(2) { animation-delay: 0.2s; }
+    .blog-card:nth-child(3) { animation-delay: 0.3s; }
+    .blog-card:nth-child(4) { animation-delay: 0.4s; }
+    .blog-card:nth-child(5) { animation-delay: 0.5s; }
+    .blog-card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Gradient border */
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+      animation: border-flow 4s ease infinite;
+    }
+
+    @keyframes border-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .blog-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Image overlay */
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.8) 100%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .blog-card:hover .image-overlay {
+      opacity: 1;
+    }
+
+    /* Image zoom effect */
+    .blog-image {
+      transition: transform 0.6s ease;
+    }
+
+    .blog-card:hover .blog-image {
+      transform: scale(1.1);
+    }
+
+    /* Title gradient animation */
+    .blog-title {
+      background: linear-gradient(90deg, #fff, #06b6d4, #8b5cf6, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.5s;
+    }
+
+    .blog-card:hover .blog-title {
+      animation: gradient-flow 2s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Meta badges */
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .blog-card:hover .meta-badge {
+      background: rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Read more button */
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      border-radius: 0.75rem;
+      font-weight: 600;
+      color: white;
+      transition: all 0.4s;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .blog-card:hover .read-more {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .read-more:hover {
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Hover lift */
+    .blog-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+    }
+
+    /* New badge */
+    .new-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0.4rem 0.8rem;
+      background: linear-gradient(135deg, #ef4444, #ec4899);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+      z-index: 10;
+      animation: badge-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badge-pulse {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+        transform: scale(1.05);
+      }
+    }
+
+    /* Back button */
+    .back-button {
+      transition: all 0.4s;
+    }
+
+    .back-button:hover {
+      transform: translateX(-5px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Empty state */
+    .empty-state {
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Excerpt text */
+    .excerpt-text {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s;
+      color: #d1d5db;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .blog-card:hover .excerpt-text {
+      opacity: 1;
+      max-height: 100px;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
 {% extends 'base.html' %}
 {% block title %}Blog & Articles{% endblock %}
 {% block content %}
-<div class="pt-20 pb-16">
-  <div class="max-w-6xl mx-auto px-4">
+
+<div class="pt-20 pb-16 relative overflow-hidden">
+  <!-- Background glow -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Blog & Articles</h1>
-      <p class="text-gray-400 max-w-2xl mx-auto">
+    <div class="text-center mb-16" data-aos="fade-down">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 glow-effect">
+        Blog & Articles
+      </h1>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">
         Thoughts on full-stack development, AI, IoT, open-source, and my journey as a developer.
       </p>
     </div>
@@ -15,43 +266,144 @@
     {% if blogs %}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for blog in blogs %}
-          <a href="{% url 'blog_detail' blog.slug %}" class="block group">
-            <div class="bg-hf-button rounded-xl overflow-hidden shadow hover:shadow-xl transition-all h-full border border-gray-800">
+          <a href="{% url 'blog_detail' blog.slug %}" 
+             class="blog-card block group relative rounded-2xl overflow-hidden backdrop-blur-xl border border-white/10
+                    shadow-2xl bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95
+                    hover:border-purple-400/50"
+             data-aos="zoom-in"
+             data-aos-delay="{{ forloop.counter|add:1 }}00">
+            
+            <!-- New Badge (show for posts less than 7 days old) -->
+            {% comment %}
+            {% if blog.is_new %}
+              <div class="new-badge">NEW</div>
+            {% endif %}
+            {% endcomment %}
+
+            <!-- Cover Image -->
+            <div class="relative h-48 overflow-hidden">
               {% if blog.cover_image %}
-                <img src="{{ blog.cover_image.url }}" alt="{{ blog.title }}" 
-                     class="w-full h-48 object-cover">
+                <img src="{{ blog.cover_image.url }}" 
+                     alt="{{ blog.title }}" 
+                     class="blog-image w-full h-full object-cover">
+                <div class="image-overlay"></div>
               {% else %}
-                <div class="w-full h-48 bg-gray-900 flex items-center justify-center">
-                  <span class="text-gray-600">No Image</span>
+                <div class="w-full h-full bg-gradient-to-br from-purple-900/50 to-cyan-900/50 flex items-center justify-center">
+                  <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
                 </div>
               {% endif %}
-              <div class="p-5">
-                <h2 class="font-bold text-lg mb-2 group-hover:text-hf-accent transition text-white">
-                  {{ blog.title }}
-                </h2>
-                <p class="text-sm text-gray-400 mb-3">
-                  By {{ blog.author }} • {{ blog.created_at|date:"M d, Y" }}
-                </p>
-                <!-- Optional: Show first 100 chars of content -->
-                <!-- <p class="text-gray-300 text-sm">{{ blog.content|striptags|truncatewords:20 }}</p> -->
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 relative">
+              <!-- Title -->
+              <h2 class="blog-title font-bold text-xl mb-3 leading-snug">
+                {{ blog.title }}
+              </h2>
+
+              <!-- Meta Information -->
+              <div class="flex flex-wrap gap-2 mb-3">
+                <div class="meta-badge text-purple-300">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>{{ blog.author }}</span>
+                </div>
+
+                <div class="meta-badge text-cyan-300">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span>{{ blog.created_at|date:"M d, Y" }}</span>
+                </div>
+              </div>
+
+              <!-- Excerpt (shows on hover) -->
+              <p class="excerpt-text">
+                {{ blog.content|striptags|truncatewords:20 }}
+              </p>
+
+              <!-- Read More Button -->
+              <div class="mt-4">
+                <span class="read-more">
+                  <span>Read Article</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </span>
               </div>
             </div>
           </a>
         {% endfor %}
       </div>
     {% else %}
-      <div class="text-center py-16">
-        <p class="text-gray-500 text-lg">No articles published yet.</p>
-        <a href="/" class="mt-4 inline-block text-hf-accent hover:underline">← Back to Portfolio</a>
+      <!-- Empty State -->
+      <div class="empty-state text-center py-20">
+        <svg class="w-24 h-24 mx-auto mb-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+        </svg>
+        <p class="text-gray-400 text-xl mb-4">No articles published yet.</p>
+        <p class="text-gray-500 mb-6">Check back soon for exciting content!</p>
+        <a href="/" class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium text-lg transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          <span>Back to Portfolio</span>
+        </a>
       </div>
     {% endif %}
 
-    <!-- Back to Home -->
-    <div class="text-center mt-12">
-      <a href="/" class="px-6 py-3 bg-hf-button text-white rounded-lg hover:bg-opacity-80 transition font-medium border border-gray-700">
-        ← Back to Portfolio
+    <!-- Back to Home Button -->
+    <div class="text-center mt-16" data-aos="fade-up">
+      <a href="/" 
+         class="back-button inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold
+                bg-gradient-to-r from-purple-600 to-pink-600 text-white border border-white/20 shadow-lg">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>Back to Portfolio</span>
       </a>
     </div>
   </div>
 </div>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Add 3D tilt effect to cards
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.blog-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 30;
+        const rotateY = (centerX - x) / 30;
+        
+        this.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+    });
+  });
+</script>
+
 {% endblock %}
+
+</body>
+</html>

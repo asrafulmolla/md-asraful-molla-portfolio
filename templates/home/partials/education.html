@@ -1,18 +1,319 @@
-<section id="education" class="py-16" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8 text-center">Education</h2>
-    <div class="space-y-6 max-w-3xl mx-auto">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Education Section</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+    }
+
+    /* Glowing title */
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3),
+                     0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5),
+                     0 0 40px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* Education card animations */
+    .education-card {
+      position: relative;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: slideInLeft 0.6s ease-out backwards;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .education-card:nth-child(1) { animation-delay: 0.1s; }
+    .education-card:nth-child(2) { animation-delay: 0.2s; }
+    .education-card:nth-child(3) { animation-delay: 0.3s; }
+    .education-card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Animated gradient border */
+    .education-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 0.75rem;
+      padding: 2px;
+      background: linear-gradient(90deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+      animation: border-spin 3s linear infinite;
+    }
+
+    @keyframes border-spin {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .education-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Neon glow on hover */
+    .education-card::after {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 0.75rem;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                                  rgba(139, 92, 246, 0.4), 
+                                  transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: -1;
+      filter: blur(15px);
+      pointer-events: none;
+    }
+
+    .education-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Shimmer effect */
+    .shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
+      transition: left 0.7s;
+    }
+
+    .education-card:hover .shimmer {
+      left: 100%;
+    }
+
+    /* Accent border animation */
+    .accent-border {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .accent-border::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #06b6d4, #8b5cf6, #ec4899);
+      background-size: 100% 200%;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 0%; }
+      50% { background-position: 0% 100%; }
+    }
+
+    /* Icon pulse */
+    .degree-icon {
+      display: inline-block;
+      animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-flow 3s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .education-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Timeline connector */
+    .timeline-line {
+      position: absolute;
+      left: -20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, 
+        transparent,
+        rgba(139, 92, 246, 0.5) 20%,
+        rgba(139, 92, 246, 0.5) 80%,
+        transparent
+      );
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -26px;
+      top: 30px;
+      width: 14px;
+      height: 14px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      border-radius: 50%;
+      border: 3px solid #0f172a;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(139, 92, 246, 1);
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
+<section id="education" class="py-24 relative overflow-hidden" data-aos="fade-up">
+  <!-- Background effects -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow-effect" data-aos="fade-down">
+      Education
+    </h2>
+
+    <div class="space-y-8 max-w-4xl mx-auto relative">
+      <!-- Timeline line for desktop -->
+      <div class="hidden md:block absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple-500/50 to-transparent" style="left: -20px;"></div>
+
       {% for edu in educations %}
-        <div class="p-5 bg-hf-button rounded-xl shadow border-l-4 border-hf-accent">
-          <h3 class="text-xl font-semibold">{{ edu.degree }}</h3>
-          <p>{{ edu.institution }}</p>
-          <p class="text-sm text-gray-300">
-            {{ edu.grade_label }}: {{ edu.grade }} • {{ edu.study_period }}
-          </p>
+        <div class="education-card accent-border group relative p-6 rounded-xl shadow-2xl backdrop-blur-lg
+                    bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95 border border-white/10
+                    cursor-default"
+             data-aos="fade-right" 
+             data-aos-delay="{{ forloop.counter|add:1 }}00">
+          
+          <!-- Timeline dot -->
+          <div class="timeline-dot hidden md:block"></div>
+          
+          <!-- Shimmer effect -->
+          <div class="shimmer"></div>
+
+          <!-- Content -->
+          <div class="relative z-10">
+            <!-- Degree -->
+            <h3 class="text-2xl font-bold text-white mb-2 group-hover:gradient-text transition-all duration-500">
+              <span class="degree-icon"></span> {{ edu.degree }}
+            </h3>
+            
+            <!-- Institution -->
+            <p class="text-lg text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
+              <span class="text-cyan-400"></span> {{ edu.institution }}
+            </p>
+            
+            <!-- Grade and Period -->
+            <div class="flex flex-wrap gap-4 text-sm">
+              <span class="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-600/20 to-cyan-600/20 
+                           border border-purple-500/30 text-purple-200 backdrop-blur-sm
+                           group-hover:border-purple-400/60 group-hover:shadow-lg group-hover:shadow-purple-500/30
+                           transition-all duration-300">
+                <strong class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  {{ edu.grade_label }}:
+                </strong> 
+                <span class="text-white">{{ edu.grade }}</span>
+              </span>
+              
+              <span class="px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-600/20 to-blue-600/20 
+                           border border-cyan-500/30 text-cyan-200 backdrop-blur-sm
+                           group-hover:border-cyan-400/60 group-hover:shadow-lg group-hover:shadow-cyan-500/30
+                           transition-all duration-300">
+                <span class="text-cyan-400"></span> {{ edu.study_period }}
+              </span>
+            </div>
+          </div>
         </div>
       {% empty %}
-        <p class="text-center text-gray-400">No education records.</p>
+        <p class="text-center text-gray-400 text-lg">No education records available.</p>
       {% endfor %}
     </div>
   </div>
 </section>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Track mouse position for glow effect
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.education-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        
+        this.style.setProperty('--mouse-x', `${x}%`);
+        this.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

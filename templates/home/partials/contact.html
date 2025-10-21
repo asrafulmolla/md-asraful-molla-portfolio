@@ -1,59 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Contact Section</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+    }
+
+    /* Pulse animation */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse-slow 6s ease-in-out infinite;
+    }
+
+    /* Glowing title */
+    .glow-effect {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3),
+                     0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5),
+                     0 0 40px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* Form container */
+    .contact-form {
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: formZoomIn 1s ease-out;
+    }
+
+    @keyframes formZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Gradient border animation */
+    .contact-form::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1.5rem;
+      padding: 3px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899, #f59e0b, #06b6d4);
+      background-size: 400% 400%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: border-rotate 5s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes border-rotate {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Input field styling */
+    .form-input, .form-textarea {
+      position: relative;
+      transition: all 0.4s ease;
+      background: rgba(99, 102, 241, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      background: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+    }
+
+    /* Label animation */
+    .form-label {
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .form-group:hover .form-label {
+      color: #a78bfa;
+      transform: translateX(5px);
+    }
+
+    /* Input icon animation */
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.5;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+
+    .form-input:focus ~ .input-icon {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.2);
+      color: #8b5cf6;
+    }
+
+    /* Form field wrapper */
+    .form-group {
+      position: relative;
+      animation: slideInLeft 0.6s ease-out backwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Submit button */
+    .submit-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .submit-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .submit-button:hover::before {
+      width: 400px;
+      height: 400px;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5);
+    }
+
+    .submit-button:active {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Success animation */
+    @keyframes successPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      animation: float-particle 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float-particle {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(var(--tx), var(--ty));
+      }
+    }
+
+    .particle:nth-child(1) { 
+      top: 10%; left: 10%; 
+      --tx: 20px; --ty: -30px;
+      animation-delay: 0s;
+    }
+    .particle:nth-child(2) { 
+      top: 30%; right: 15%; 
+      --tx: -25px; --ty: -35px;
+      animation-delay: 1s;
+    }
+    .particle:nth-child(3) { 
+      bottom: 20%; left: 20%; 
+      --tx: 30px; --ty: -25px;
+      animation-delay: 2s;
+    }
+    .particle:nth-child(4) { 
+      bottom: 40%; right: 10%; 
+      --tx: -20px; --ty: -40px;
+      animation-delay: 1.5s;
+    }
+
+    /* Character counter */
+    .char-counter {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: right;
+      margin-top: 0.25rem;
+      transition: color 0.3s;
+    }
+
+    .char-counter.warning {
+      color: #f59e0b;
+    }
+
+    /* Shimmer on form */
+    .shimmer-effect {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 92, 246, 0.1) 50%, 
+        transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+      pointer-events: none;
+      border-radius: 1.5rem;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Template Version -->
 <section id="contact" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
   <!-- Subtle background glow -->
-  <div class="absolute inset-0 bg-gradient-to-tr from-hf-accent/10 via-transparent to-hf-accent/10 blur-3xl animate-pulse-slow"></div>
+  <div class="absolute inset-0 bg-gradient-to-tr from-purple-600/10 via-transparent to-cyan-600/10 blur-3xl animate-pulse-slow"></div>
 
-  <div class="max-w-2xl mx-auto relative z-10">
-    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md" data-aos="fade-down">
+  <div class="max-w-2xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow-effect" data-aos="fade-down">
       Get In Touch
     </h2>
 
-    <form method="post" action="{% url 'contact' %}" class="space-y-6 p-8 bg-hf-button/60 backdrop-blur-lg rounded-2xl border border-white/10 shadow-xl">
+    <form method="post" 
+          action="{% url 'contact' %}" 
+          class="contact-form relative space-y-6 p-8 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl
+                 bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95"
+          data-aos="zoom-in"
+          data-aos-delay="200">
+      
+      <!-- Shimmer effect -->
+      <div class="shimmer-effect"></div>
+
+      <!-- Floating particles -->
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+
       {% csrf_token %}
       
-      <div>
-        <label class="block mb-2 font-medium text-white">Name</label>
-        <input type="text" name="name" required
-               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
-                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      <!-- Name Field -->
+      <div class="form-group relative">
+        <label class="form-label block mb-2 font-medium text-white">Name</label>
+        <div class="relative">
+          <input type="text" 
+                 name="name" 
+                 required
+                 class="form-input w-full px-4 py-3 text-white rounded-lg border border-gray-600
+                        focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500
+                        transition-all duration-300">
+          <svg class="input-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
       </div>
 
-      <div>
-        <label class="block mb-2 font-medium text-white">Email</label>
-        <input type="email" name="email" required
-               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
-                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      <!-- Email Field -->
+      <div class="form-group relative">
+        <label class="form-label block mb-2 font-medium text-white">Email</label>
+        <div class="relative">
+          <input type="email" 
+                 name="email" 
+                 required
+                 class="form-input w-full px-4 py-3 text-white rounded-lg border border-gray-600
+                        focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500
+                        transition-all duration-300">
+          <svg class="input-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+          </svg>
+        </div>
       </div>
 
-      <div>
-        <label class="block mb-2 font-medium text-white">Subject</label>
-        <input type="text" name="subject" required
-               class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
-                      focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]">
+      <!-- Subject Field -->
+      <div class="form-group relative">
+        <label class="form-label block mb-2 font-medium text-white">Subject</label>
+        <div class="relative">
+          <input type="text" 
+                 name="subject" 
+                 required
+                 class="form-input w-full px-4 py-3 text-white rounded-lg border border-gray-600
+                        focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500
+                        transition-all duration-300">
+          <svg class="input-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
       </div>
 
-      <div>
-        <label class="block mb-2 font-medium text-white">Message</label>
-        <textarea name="message" rows="5" required
-                  class="w-full px-4 py-3 bg-hf-button/80 text-white rounded-lg border border-gray-600
-                         focus:ring-2 focus:ring-hf-accent focus:outline-none transition-all duration-300 hover:shadow-[0_0_15px_var(--hf-accent)]"></textarea>
+      <!-- Message Field -->
+      <div class="form-group relative">
+        <label class="form-label block mb-2 font-medium text-white">Message</label>
+        <textarea name="message" 
+                  rows="5" 
+                  required
+                  maxlength="500"
+                  class="form-textarea w-full px-4 py-3 text-white rounded-lg border border-gray-600
+                         focus:ring-2 focus:ring-purple-500 focus:outline-none focus:border-purple-500
+                         transition-all duration-300 resize-none"
+                  oninput="updateCharCount(this)"></textarea>
+        <div class="char-counter" id="charCounter">0 / 500</div>
       </div>
 
+      <!-- Submit Button -->
       <button type="submit"
-              class="w-full py-3 font-medium rounded-lg bg-gradient-to-r from-hf-button/70 to-hf-accent/70
-                     text-white border border-white/20 shadow-md hover:shadow-[0_0_20px_var(--hf-accent)]
-                     hover:scale-105 transition-all duration-500">
-        Send Message
+              class="submit-button w-full py-3 font-bold rounded-lg text-white border border-white/20 shadow-md
+                     bg-gradient-to-r from-purple-600 to-pink-600
+                     transition-all duration-500"
+              data-aos="fade-up"
+              data-aos-delay="500">
+        <span class="relative z-10 flex items-center justify-center gap-2">
+          <span>Send Message</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </span>
       </button>
     </form>
   </div>
 </section>
 
-<style>
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
-}
-.animate-pulse-slow {
-  animation: pulse-slow 6s ease-in-out infinite;
-}
-</style>
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Character counter
+  function updateCharCount(textarea) {
+    const counter = document.getElementById('charCounter');
+    const length = textarea.value.length;
+    const maxLength = textarea.maxLength;
+    
+    counter.textContent = `${length} / ${maxLength}`;
+    
+    if (length > maxLength * 0.9) {
+      counter.classList.add('warning');
+    } else {
+      counter.classList.remove('warning');
+    }
+  }
+
+  // Form submission animation
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.contact-form');
+    const submitButton = document.querySelector('.submit-button');
+    
+    form.addEventListener('submit', function(e) {
+      // Add loading state
+      submitButton.innerHTML = '<span class="relative z-10">Sending...</span>';
+      submitButton.style.pointerEvents = 'none';
+      
+      // Create success particles
+      createSuccessParticles(submitButton);
+    });
+
+    // Add 3D tilt effect to form
+    form.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 50;
+      const rotateY = (centerX - x) / 50;
+      
+      this.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    
+    form.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  });
+
+  // Success particles
+  function createSuccessParticles(element) {
+    const colors = ['#8b5cf6', '#ec4899', '#06b6d4', '#10b981'];
+    const rect = element.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'fixed';
+      particle.style.left = centerX + 'px';
+      particle.style.top = centerY + 'px';
+      particle.style.width = '6px';
+      particle.style.height = '6px';
+      particle.style.borderRadius = '50%';
+      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.pointerEvents = 'none';
+      particle.style.zIndex = '9999';
+      
+      const angle = (Math.PI * 2 * i) / 20;
+      const velocity = 100 + Math.random() * 100;
+      const tx = Math.cos(angle) * velocity;
+      const ty = Math.sin(angle) * velocity;
+      
+      particle.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+      ], {
+        duration: 1000 + Math.random() * 500,
+        easing: 'cubic-bezier(0, .9, .57, 1)'
+      });
+      
+      document.body.appendChild(particle);
+      
+      setTimeout(() => particle.remove(), 1500);
+    }
+  }
+</script>
+
+</body>
+</html>

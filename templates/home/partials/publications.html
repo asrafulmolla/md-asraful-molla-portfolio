@@ -1,37 +1,426 @@
-<section id="publications" class="py-16" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8 text-center">Publications</h2>
-    <div class="space-y-5 max-w-4xl mx-auto">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Publications Section - Django</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
+  <style>
+    :root {
+      --hf-accent: #8b5cf6;
+      --hf-button: #6366f1;
+    }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* Pulse animation for background */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse-slow 6s ease-in-out infinite;
+    }
+
+    /* Floating animation */
+    @keyframes float-up {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .publication-card {
+      animation: float-up 4s ease-in-out infinite;
+    }
+
+    .publication-card:nth-child(2n) {
+      animation-delay: 0.5s;
+    }
+
+    .publication-card:nth-child(3n) {
+      animation-delay: 1s;
+    }
+
+    .publication-card:hover {
+      animation: none;
+    }
+
+    /* Gradient border animation */
+    .publication-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899, #f59e0b);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+      animation: border-rotate 4s linear infinite;
+    }
+
+    @keyframes border-rotate {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .publication-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Glow effect on hover */
+    .publication-card::after {
+      content: '';
+      position: absolute;
+      inset: -15px;
+      border-radius: 1rem;
+      background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.4), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: -1;
+      filter: blur(20px);
+    }
+
+    .publication-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Shimmer effect */
+    .shimmer-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.15) 50%, 
+        transparent 100%);
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: 1rem;
+    }
+
+    .publication-card:hover .shimmer-overlay {
+      opacity: 1;
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Status badge animations */
+    .status-badge {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .status-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .status-badge:hover::before {
+      left: 100%;
+    }
+
+    /* DOI link animation */
+    .doi-link {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .doi-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899);
+      transition: width 0.4s ease;
+    }
+
+    .doi-link:hover::after {
+      width: 100%;
+    }
+
+    .doi-link:hover {
+      transform: translateX(5px);
+    }
+
+    /* Icon animations */
+    @keyframes iconBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .doi-link:hover svg {
+      animation: iconBounce 0.6s ease;
+    }
+
+    /* Glowing title */
+    .glow-title {
+      animation: glow-pulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow-pulse {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                     0 0 20px rgba(139, 92, 246, 0.3),
+                     0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                     0 0 30px rgba(139, 92, 246, 0.5),
+                     0 0 40px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* Year badge pulse */
+    @keyframes year-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+    }
+
+    .year-badge {
+      animation: year-pulse 2s infinite;
+    }
+
+    /* Card content fade in */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .publication-card:hover .card-content > * {
+      animation: fadeInUp 0.4s ease-out backwards;
+    }
+
+    .publication-card:hover .card-content > *:nth-child(1) { animation-delay: 0.05s; }
+    .publication-card:hover .card-content > *:nth-child(2) { animation-delay: 0.1s; }
+    .publication-card:hover .card-content > *:nth-child(3) { animation-delay: 0.15s; }
+    .publication-card:hover .card-content > *:nth-child(4) { animation-delay: 0.2s; }
+    .publication-card:hover .card-content > *:nth-child(5) { animation-delay: 0.25s; }
+
+    /* See More button */
+    .button-ripple {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button-ripple::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .button-ripple:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Aurora background effect */
+    @keyframes aurora {
+      0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+      100% { transform: translateX(50%) translateY(50%) rotate(360deg); }
+    }
+
+    @keyframes aurora-reverse {
+      0% { transform: translateX(50%) translateY(50%) rotate(0deg); }
+      100% { transform: translateX(-50%) translateY(-50%) rotate(-360deg); }
+    }
+
+    .animate-aurora {
+      animation: aurora 10s ease-in-out infinite;
+    }
+
+    .animate-aurora-reverse {
+      animation: aurora-reverse 12s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Django Publications Section -->
+<section id="publications" class="relative py-24 overflow-hidden bg-transparent" data-aos="fade-up" x-data="{ expanded: false }">
+  <!-- Background glow effects -->
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-cyan-600/10 blur-3xl animate-pulse-slow"></div>
+  
+  <!-- Aurora background effects -->
+  <div class="absolute inset-0 opacity-30 pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-aurora"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-l from-blue-500/20 via-emerald-500/20 to-yellow-500/20 rounded-full blur-3xl animate-aurora-reverse"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider glow-title" data-aos="fade-down">
+      Publications
+    </h2>
+
+    <div class="space-y-6 max-w-5xl mx-auto">
       {% for pub in publications %}
-        <div class="p-5 bg-hf-button rounded-xl shadow">
-          <h3 class="text-lg font-semibold">{{ pub.title }}</h3>
-          <p class="text-sm italic mb-1">{{ pub.authors }}</p>
-          <p class="text-sm">
-            {{ pub.conference }}, {{ pub.year }} — <span class="font-medium text-hf-accent">{{ pub.status }}</span>
-          </p>
-          
-          <!-- Optional: Publisher -->
-          {% if pub.publisher %}
-            <p class="text-xs text-gray-400 mt-1">Publisher: {{ pub.publisher }}</p>
-          {% endif %}
-          
-          <!-- Optional: DOI Link -->
-          {% if pub.doi_link %}
-            <div class="mt-2">
-              <a href="{{ pub.doi_link }}" target="_blank" rel="noopener" 
-                 class="inline-flex items-center text-xs text-hf-accent hover:underline">
-                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
-                  <path d="M16.5 12c0 .828-.672 1.5-1.5 1.5h-3v1.5H10.5V9h3c.828 0 1.5.672 1.5 1.5v3zm-4.5-1.5h1.5v-1.5H12v1.5z"/>
-                </svg>
-                DOI: {{ pub.doi_link|cut:"https://doi.org/" }}
-              </a>
+        <div class="publication-card group relative rounded-2xl overflow-hidden backdrop-blur-xl border border-white/20
+                    shadow-2xl transition-all duration-700 hover:-translate-y-2 hover:scale-[1.01]
+                    hover:shadow-[0_20px_60px_-15px_rgba(139,92,246,0.6)] 
+                    bg-gradient-to-br from-slate-900/95 via-indigo-900/10 to-slate-900/95"
+             data-aos="fade-up" 
+             data-aos-delay="{{ forloop.counter|add:1 }}00"
+             x-show="expanded || {{ forloop.counter }} <= 5"
+             x-transition:enter="transition ease-out duration-500"
+             x-transition:enter-start="opacity-0 transform scale-95"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-95">
+
+          <!-- Shimmer overlay -->
+          <div class="shimmer-overlay"></div>
+
+          <!-- Glass reflection -->
+          <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+          <!-- Card content -->
+          <div class="card-content relative z-10 p-6 transition-all duration-500">
+            
+            <!-- Title with gradient on hover -->
+            <h3 class="text-2xl font-bold text-white mb-3 tracking-wide leading-tight
+                       group-hover:text-transparent group-hover:bg-clip-text 
+                       group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:via-purple-400 group-hover:to-pink-400 
+                       transition-all duration-500 group-hover:scale-[1.02]">
+              {{ pub.title }}
+            </h3>
+
+            <!-- Authors -->
+            <p class="text-base italic mb-3 text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+              {{ pub.authors }}
+            </p>
+
+            <!-- Conference, Year & Status -->
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <p class="text-sm text-gray-400">
+                {{ pub.conference }}
+              </p>
+              
+              <span class="year-badge inline-block px-3 py-1 rounded-full text-xs font-bold text-white
+                           bg-gradient-to-r from-cyan-500/30 to-blue-500/30 border border-cyan-400/30">
+                {{ pub.year }}
+              </span>
+
+              <span class="status-badge inline-block px-4 py-1.5 rounded-full text-sm font-bold
+                           bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg
+                           hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] hover:scale-105 transition-all duration-300">
+                {{ pub.status }}
+              </span>
             </div>
-          {% endif %}
+
+            <!-- Publisher (Optional) -->
+            {% if pub.publisher %}
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <p class="text-sm text-gray-400">
+                  <span class="font-semibold text-purple-400">Publisher:</span> {{ pub.publisher }}
+                </p>
+              </div>
+            {% endif %}
+
+            <!-- DOI Link (Optional) -->
+            {% if pub.doi_link %}
+              <div class="mt-4 pt-4 border-t border-white/10">
+                <a href="{{ pub.doi_link }}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="doi-link inline-flex items-center gap-2 text-sm font-medium
+                          text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400
+                          hover:from-cyan-300 hover:via-purple-300 hover:to-pink-300">
+                  <svg class="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                    <path d="M16.5 12c0 .828-.672 1.5-1.5 1.5h-3v1.5H10.5V9h3c.828 0 1.5.672 1.5 1.5v3zm-4.5-1.5h1.5v-1.5H12v1.5z"/>
+                  </svg>
+                  <span>DOI: {{ pub.doi_link|cut:"https://doi.org/" }}</span>
+                  <svg class="w-4 h-4 text-purple-400 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  </svg>
+                </a>
+              </div>
+            {% endif %}
+          </div>
         </div>
       {% empty %}
-        <p class="text-center text-gray-400">No publications listed.</p>
+        <div class="text-center py-12">
+          <div class="inline-block p-8 rounded-2xl bg-gradient-to-br from-slate-900/95 via-purple-900/10 to-slate-900/95 
+                      border border-white/20 backdrop-blur-xl shadow-2xl">
+            <svg class="w-16 h-16 mx-auto mb-4 text-purple-400 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="text-gray-400 text-lg">No publications listed yet.</p>
+          </div>
+        </div>
       {% endfor %}
     </div>
+
+    <!-- See More / Show Less Button -->
+    {% if publications|length > 5 %}
+      <div class="text-center mt-12" data-aos="fade-up">
+        <button 
+          @click="expanded = !expanded"
+          class="button-ripple relative px-8 py-3 bg-gradient-to-r from-hf-button to-hf-accent text-white rounded-xl font-medium 
+                 border border-white/20 shadow-lg hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] 
+                 hover:-translate-y-1 hover:scale-105 transition-all duration-500 tracking-wide"
+          x-text="expanded ? 'Show Less ▲' : 'See More ▼'">
+        </button>
+      </div>
+    {% endif %}
   </div>
 </section>
+
+<script>
+  // Initialize AOS
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+  });
+
+  // Add smooth scroll behavior
+  document.addEventListener('DOMContentLoaded', function() {
+    const publications = document.querySelectorAll('.publication-card');
+    
+    publications.forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.2}s`;
+    });
+  });
+</script>
+
+</body>
+</html>

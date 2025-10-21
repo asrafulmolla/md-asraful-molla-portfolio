@@ -26,11 +26,19 @@ def home(request):
 
 def blog_list(request):
     blogs = Blog.objects.all().order_by('-created_at')
-    return render(request, 'home/blog.html', {'blogs': blogs})
+    profile = Profile.objects.first()  # ✅ Add করুন
+    return render(request, 'home/blog.html', {
+        'blogs': blogs,
+        'profile': profile  # ✅ Add করুন
+    })
 
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
-    return render(request, 'home/blog_detail.html', {'blog': blog})
+    profile = Profile.objects.first()  # ✅ Add করুন
+    return render(request, 'home/blog_detail.html', {
+        'blog': blog,
+        'profile': profile  # ✅ Add করুন
+    })
 
 def contact(request):
     if request.method == "POST":
@@ -50,11 +58,24 @@ def contact(request):
         messages.success(request, "Your message has been sent!")
         return redirect('home') 
     
-    return render(request, 'home/partials/contact.html') 
+    profile = Profile.objects.first()  # ✅ Add করুন
+    return render(request, 'home/partials/contact.html', {'profile': profile})  # ✅ Add করুন
 
 def gallery_list(request):
     gallery_items = Gallery.objects.all()
-    return render(request, 'home/gallery.html', {'gallery_items': gallery_items})
+    profile = Profile.objects.first()  # ✅ Add করুন
+    return render(request, 'home/gallery_list.html', {
+        'gallery_items': gallery_items,
+        'profile': profile  # ✅ Add করুন
+    })
+
+def gallery_detail(request, pk):
+    item = get_object_or_404(Gallery, pk=pk)
+    profile = Profile.objects.first()  # ✅ Add করুন
+    return render(request, 'home/gallery_detail.html', {
+        'item': item,
+        'profile': profile  # ✅ Add করুন
+    })
 
 def contact_submit(request):
     if request.method == "POST":

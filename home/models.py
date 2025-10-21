@@ -80,7 +80,7 @@ class Project(models.Model):
 class ProblemSolving(models.Model):
     site_name = models.CharField(max_length=100)
     problems_solved = models.IntegerField()
-    rating = models.CharField(max_length=50)
+    rating = models.CharField(max_length=50, blank=True)
     link = models.URLField()
 
 class Achievement(models.Model):
@@ -94,7 +94,7 @@ class Leadership(models.Model):
     role = models.CharField(max_length=150)
     organization = models.CharField(max_length=150)
     duration = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
 class Certification(models.Model):
     name = models.CharField(max_length=200)
