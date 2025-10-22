@@ -8,94 +8,96 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <style>
     :root {
-      --hf-accent: #8b5cf6;
-      --hf-button: #6366f1;
+      --accent: #10b981;
+      --secondary: #06b6d4;
+      --purple: #8b5cf6;
     }
 
-    body {
-      background: #0f172a;
-      min-height: 100vh;
-    }
-
-    /* Glowing title */
-    .glow-effect {
+    /* Title Glow */
+    .glow {
       animation: glow 2s ease-in-out infinite alternate;
     }
 
     @keyframes glow {
-      from {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-                     0 0 20px rgba(139, 92, 246, 0.3),
-                     0 0 30px rgba(139, 92, 246, 0.2);
-      }
-      to {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                     0 0 30px rgba(139, 92, 246, 0.5),
-                     0 0 40px rgba(139, 92, 246, 0.3);
-      }
+      from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(16, 185, 129, 0.3); }
+      to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(16, 185, 129, 0.5); }
     }
 
-    /* Platform cards grid */
-    .platform-grid {
+    /* Card Grid */
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
     }
 
-    /* Platform card */
-    .platform-card {
+    /* Card */
+    .card {
       position: relative;
-      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(16, 185, 129, 0.05));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       animation: slideUp 0.8s ease-out backwards;
+      overflow: hidden;
     }
 
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .platform-card:nth-child(1) { animation-delay: 0.1s; }
-    .platform-card:nth-child(2) { animation-delay: 0.2s; }
-    .platform-card:nth-child(3) { animation-delay: 0.3s; }
-    .platform-card:nth-child(4) { animation-delay: 0.4s; }
-
-    /* Gradient border */
-    .platform-card::before {
+    .card::before {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: -2px;
       border-radius: 1.5rem;
       padding: 2px;
-      background: linear-gradient(135deg, #10b981, #06b6d4, #8b5cf6, #ec4899, #10b981);
+      background: linear-gradient(135deg, var(--accent), var(--secondary), var(--purple), var(--accent));
       background-size: 300% 300%;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity: 0;
       transition: opacity 0.5s;
-      animation: border-rotate 4s ease infinite;
+      animation: borderFlow 4s ease infinite;
+      z-index: -1;
     }
 
-    @keyframes border-rotate {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 25px 70px rgba(16, 185, 129, 0.3);
+      border-color: rgba(16, 185, 129, 0.5);
     }
 
-    .platform-card:hover::before {
+    .card:hover::before {
       opacity: 1;
     }
 
-    /* Platform icon */
-    .platform-icon {
+    /* Hidden Items */
+    .card.hidden {
+      display: none;
+    }
+
+    /* Shimmer */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+      pointer-events: none;
+      transition: left 0.8s;
+    }
+
+    .card:hover::after {
+      left: 100%;
+    }
+
+    /* Icon */
+    .icon {
       width: 60px;
       height: 60px;
-      background: linear-gradient(135deg, #10b981, #06b6d4);
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
       border-radius: 1rem;
       display: flex;
       align-items: center;
@@ -104,36 +106,28 @@
       font-weight: bold;
       color: white;
       box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-      animation: icon-float 3s ease-in-out infinite;
+      animation: float 3s ease-in-out infinite;
       margin-bottom: 1rem;
     }
 
-    @keyframes icon-float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(5deg); }
-    }
-
-    /* Platform name gradient */
-    .platform-name {
-      background: linear-gradient(90deg, #fff, #10b981, #06b6d4, #fff);
+    /* Title Gradient */
+    .title {
+      background: linear-gradient(90deg, #fff, var(--accent), var(--secondary), #fff);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      transition: all 0.5s;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
     }
 
-    .platform-card:hover .platform-name {
-      animation: gradient-flow 2s linear infinite;
+    .card:hover .title {
+      animation: gradientFlow 2s linear infinite;
     }
 
-    @keyframes gradient-flow {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-
-    /* Stats display */
-    .stat-item {
+    /* Stat Item */
+    .stat {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -145,7 +139,7 @@
       transition: all 0.3s;
     }
 
-    .platform-card:hover .stat-item {
+    .card:hover .stat {
       background: rgba(16, 185, 129, 0.15);
       border-color: rgba(16, 185, 129, 0.4);
       transform: translateX(5px);
@@ -158,105 +152,13 @@
     }
 
     .stat-value {
-      color: #10b981;
+      color: var(--accent);
       font-size: 1.125rem;
       font-weight: bold;
     }
 
-    /* Rating badge */
-    .rating-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
-      border: 2px solid rgba(245, 158, 11, 0.4);
-      border-radius: 2rem;
-      color: #f59e0b;
-      font-weight: bold;
-      font-size: 1rem;
-      animation: badge-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes badge-pulse {
-      0%, 100% { 
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        transform: scale(1);
-      }
-      50% { 
-        box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
-        transform: scale(1.05);
-      }
-    }
-
-    /* View profile button */
-    .view-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-      border: none;
-      border-radius: 0.75rem;
-      color: white;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      overflow: hidden;
-      position: relative;
-      transition: all 0.4s;
-    }
-
-    .view-button::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.5);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-
-    .view-button:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    .view-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
-    }
-
-    /* Shimmer effect */
-    .shimmer {
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(16, 185, 129, 0.2) 50%, 
-        transparent 100%);
-      transition: left 0.8s;
-      pointer-events: none;
-    }
-
-    .platform-card:hover .shimmer {
-      left: 100%;
-    }
-
-    /* Hover effect */
-    .platform-card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
-    }
-
-    /* Progress bar for problems solved */
-    .progress-bar {
+    /* Progress Bar */
+    .progress {
       width: 100%;
       height: 6px;
       background: rgba(16, 185, 129, 0.2);
@@ -267,22 +169,180 @@
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #10b981, #06b6d4);
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
       border-radius: 1rem;
       transition: width 1s ease-out;
-      animation: pulse-progress 2s ease-in-out infinite;
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    @keyframes pulse-progress {
+    /* Hidden Details (Show on Hover) */
+    .details {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      margin-top: 0;
+    }
+
+    .card:hover .details {
+      opacity: 1;
+      max-height: 200px;
+      margin-top: 1rem;
+    }
+
+    /* Rating Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: 2rem;
+      color: #f59e0b;
+      font-weight: bold;
+      animation: badgePulse 2s ease-in-out infinite;
+    }
+
+    /* View Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--secondary), var(--purple));
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.6s;
+    }
+
+    .btn:hover::before {
+      transform: scale(2);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    /* Toggle Button */
+    .toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: white;
+      border: 2px solid transparent;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      margin-top: 3rem;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toggle-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+
+    .toggle-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    .toggle-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 50px rgba(16, 185, 129, 0.5);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .toggle-btn svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s;
+    }
+
+    .toggle-btn:hover svg {
+      transform: translateY(3px);
+    }
+
+    .toggle-btn.show-less svg {
+      transform: rotate(180deg);
+    }
+
+    .toggle-btn.show-less:hover svg {
+      transform: rotate(180deg) translateY(3px);
+    }
+
+    /* Animations */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes borderFlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.7; }
     }
 
-    /* Empty state */
-    .empty-state {
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); transform: scale(1); }
+      50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.5); transform: scale(1.05); }
+    }
+
+    /* Stagger Animation Delays */
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Empty State */
+    .empty {
       text-align: center;
       padding: 4rem 2rem;
       color: #9ca3af;
+      grid-column: 1 / -1;
     }
   </style>
 </head>
@@ -290,52 +350,45 @@
 
 <!-- Django Template Version -->
 <section id="problem-solving" class="py-24 relative overflow-hidden bg-transparent" data-aos="fade-up">
-  <!-- Background ambient glow -->
+  <!-- Background -->
   <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-transparent to-cyan-600/5 blur-3xl"></div>
 
   <div class="max-w-6xl mx-auto px-6 relative z-10">
-    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow-effect" data-aos="fade-down">
-      Problem Solving Stats
+    <!-- Title -->
+    <h2 class="text-5xl font-extrabold mb-16 text-center text-white tracking-wider drop-shadow-md glow" data-aos="fade-down">
+      💻 Problem Solving Stats
     </h2>
 
-    <div class="platform-grid">
+    <!-- Cards Grid -->
+    <div class="grid" id="cardsGrid">
       {% for ps in problem_solving %}
-        <div class="platform-card group relative rounded-3xl p-6 backdrop-blur-xl border border-white/10
-                    shadow-2xl bg-gradient-to-br from-slate-900/95 via-emerald-900/10 to-slate-900/95
-                    hover:border-emerald-400/50 cursor-default overflow-hidden"
-             data-aos="zoom-in" 
-             data-aos-delay="{{ forloop.counter|add:1 }}00">
-
-          <!-- Shimmer effect -->
-          <div class="shimmer"></div>
-
-          <!-- Platform Icon -->
-          <div class="platform-icon">
+        <div class="card {% if forloop.counter > 6 %}hidden{% endif %}" data-aos="zoom-in" data-aos-delay="{{ forloop.counter|add:1 }}00">
+          
+          <!-- Icon -->
+          <div class="icon">
             {{ ps.site_name|slice:":2"|upper }}
           </div>
 
-          <!-- Platform Name -->
-          <h3 class="platform-name text-2xl font-bold text-white mb-4">
-            {{ ps.site_name }}
-          </h3>
+          <!-- Title -->
+          <h3 class="title">{{ ps.site_name }}</h3>
 
           <!-- Stats -->
-          <div class="space-y-3 mb-4">
-            <!-- Problems Solved -->
-            <div class="stat-item">
-              <span class="stat-label">Problems Solved</span>
-              <span class="stat-value">{{ ps.problems_solved }}</span>
-            </div>
-            
-            <!-- Progress bar for visual representation -->
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: {{ ps.problems_solved|slice:":2" }}%;" data-progress="{{ ps.problems_solved }}"></div>
-            </div>
+          <div class="stat">
+            <span class="stat-label">Problems Solved</span>
+            <span class="stat-value">{{ ps.problems_solved }}</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="progress">
+            <div class="progress-fill" style="width: 0%;" data-progress="{{ ps.problems_solved }}"></div>
+          </div>
 
+          <!-- Hidden Details (Show on Hover) -->
+          <div class="details">
             <!-- Rating Badge -->
             {% if ps.rating %}
-              <div class="flex justify-center mt-3">
-                <div class="rating-badge">
+              <div class="flex justify-center mb-3">
+                <div class="badge">
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                   </svg>
@@ -343,23 +396,20 @@
                 </div>
               </div>
             {% endif %}
-          </div>
 
-          <!-- View Profile Button -->
-          <div class="mt-6 flex justify-center">
-            <a href="{{ ps.link }}" 
-               target="_blank" 
-               rel="noopener"
-               class="view-button">
-              <span class="relative z-10">View Profile</span>
-              <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-              </svg>
-            </a>
+            <!-- View Profile Button -->
+            <div class="flex justify-center">
+              <a href="{{ ps.link }}" target="_blank" rel="noopener" class="btn">
+                <span class="relative z-10">View Profile</span>
+                <svg class="relative z-10 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       {% empty %}
-        <div class="col-span-full empty-state">
+        <div class="empty">
           <svg class="w-20 h-20 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
           </svg>
@@ -368,18 +418,65 @@
         </div>
       {% endfor %}
     </div>
+
+    <!-- Toggle Button (Show if more than 6 items) -->
+    {% if problem_solving|length > 6 %}
+      <div class="text-center">
+        <button class="toggle-btn" id="toggleBtn" onclick="toggleCards()">
+          <span id="btnText">See More</span>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+      </div>
+    {% endif %}
   </div>
 </section>
 
 <script>
   // Initialize AOS
-  AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 100
-  });
+  AOS.init({ duration: 1000, once: true, offset: 100 });
 
-  // Animate progress bars
+  let isExpanded = false;
+
+  // Toggle Cards
+  function toggleCards() {
+    const cards = document.querySelectorAll('.card.hidden');
+    const btn = document.getElementById('toggleBtn');
+    const btnText = document.getElementById('btnText');
+    
+    isExpanded = !isExpanded;
+    
+    if (isExpanded) {
+      // Show all cards
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.remove('hidden');
+          card.style.animation = 'slideUp 0.6s ease-out';
+        }, index * 100);
+      });
+      btnText.textContent = 'Show Less';
+      btn.classList.add('show-less');
+    } else {
+      // Hide cards after 6
+      const allCards = document.querySelectorAll('.card');
+      allCards.forEach((card, index) => {
+        if (index >= 6) {
+          card.classList.add('hidden');
+        }
+      });
+      btnText.textContent = 'See More';
+      btn.classList.remove('show-less');
+      
+      // Smooth scroll to section
+      document.getElementById('problem-solving').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }
+  }
+
+  // Animate Progress Bars
   document.addEventListener('DOMContentLoaded', function() {
     const progressBars = document.querySelectorAll('.progress-fill');
     
@@ -387,16 +484,18 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const progress = entry.target.getAttribute('data-progress');
-          const percentage = Math.min(parseInt(progress) / 10, 100); // Scale appropriately
-          entry.target.style.width = percentage + '%';
+          const percentage = Math.min(parseInt(progress) / 10, 100);
+          setTimeout(() => {
+            entry.target.style.width = percentage + '%';
+          }, 300);
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
 
     progressBars.forEach(bar => observer.observe(bar));
 
-    // Add 3D tilt effect
-    const cards = document.querySelectorAll('.platform-card');
+    // 3D Tilt Effect
+    const cards = document.querySelectorAll('.card');
     
     cards.forEach(card => {
       card.addEventListener('mousemove', function(e) {

@@ -142,7 +142,9 @@ class Gallery(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='gallery/')
+    category = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -120,7 +120,7 @@
       50% { transform: translateY(-5px); }
     }
 
-    /* Navigation Links */
+    /* Navigation Links - Desktop */
     .hf-nav {
       display: flex;
       gap: 2rem;
@@ -178,6 +178,98 @@
       transform: translateX(-50%) scale(1);
     }
 
+    /* Mobile Menu Toggle Button */
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      padding: 0.6rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(139, 92, 246, 0.3);
+      border-color: #8b5cf6;
+    }
+
+    .mobile-menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: #8b5cf6;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Mobile Navigation Menu */
+    .mobile-nav {
+      position: fixed;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 2rem);
+      max-width: 400px;
+      background: rgba(15, 15, 20, 0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 20px;
+      padding: 1.5rem;
+      z-index: 40;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(-20px);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-nav.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .mobile-nav a {
+      display: block;
+      padding: 1rem;
+      color: #cbd5e0;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .mobile-nav a:hover {
+      background: rgba(139, 92, 246, 0.2);
+      color: #ffffff;
+      transform: translateX(10px);
+    }
+
+    .mobile-nav .mobile-resume-btn {
+      margin-top: 1rem;
+      padding: 1rem;
+      text-align: center;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      border-radius: 0.75rem;
+      font-weight: 700;
+    }
+
     /* Resume Button */
     .hf-button {
       background: linear-gradient(135deg, #8b5cf6, #6366f1);
@@ -192,6 +284,7 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+      white-space: nowrap;
     }
 
     .hf-button::before {
@@ -367,19 +460,28 @@
     /* Responsive */
     @media (max-width: 768px) {
       .hf-header {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
+        padding: 0.75rem 1rem;
+      }
+
+      .hf-logo {
+        font-size: 1.25rem;
+      }
+
+      .hf-logo svg {
+        width: 24px;
+        height: 24px;
       }
 
       .hf-nav {
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
+        display: none;
       }
 
-      .hf-nav a {
-        font-size: 0.85rem;
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .hf-button {
+        display: none;
       }
     }
   </style>
@@ -406,6 +508,8 @@
         </svg>
         Asraful
       </div>
+
+      <!-- Desktop Navigation -->
       <nav class="hf-nav">
         <a href="{% url 'home' %}#about" data-aos="fade-down">About</a>
         <a href="{% url 'home' %}#projects" data-aos="fade-down" data-aos-delay="100">Projects</a>
@@ -413,13 +517,36 @@
         <a href="{% url 'gallery_list' %}" data-aos="fade-down" data-aos-delay="250">Gallery</a>
         <a href="{% url 'home' %}#contact" data-aos="fade-down" data-aos-delay="300">Contact</a>
       </nav>
+
+      <!-- Desktop Resume Button -->
       {% if profile and profile.resume %}
-        <a href="{{ profile.resume.url }}" target="_blank" rel="noopener"
-        class="hf-button whitespace-nowrap"> Resume </a>
+        <a href="{{ profile.resume.url }}" target="_blank" rel="noopener" class="hf-button">Resume</a>
       {% else %}
         <span class="hf-button opacity-50 cursor-not-allowed">Resume</span>
       {% endif %}
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="{% url 'home' %}#about">About</a>
+      <a href="{% url 'home' %}#projects">Projects</a>
+      <a href="{% url 'blog_list' %}">Blog</a>
+      <a href="{% url 'gallery_list' %}">Gallery</a>
+      <a href="{% url 'home' %}#contact">Contact</a>
+      
+      {% if profile and profile.resume %}
+        <a href="{{ profile.resume.url }}" target="_blank" rel="noopener" class="mobile-resume-btn">📄 Resume</a>
+      {% else %}
+        <span class="mobile-resume-btn opacity-50 cursor-not-allowed">📄 Resume</span>
+      {% endif %}
+    </nav>
   </header>
 
   <!-- Background Network -->
@@ -434,7 +561,7 @@
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
-          <h3 class="text-lg font-bold mb-4 text-white">Md. Asraful Molla</h3>
+          <h3 class="text-lg font-bold mb-4 text-white">Asraful Molla</h3>
           <p class="text-gray-300 text-sm leading-relaxed">
             Full-stack developer, researcher, and open-source contributor passionate about building impactful software.
           </p>
@@ -482,15 +609,44 @@
           <p class="text-xs text-gray-500">&copy; {% now "Y" %} Asraful Molla. All rights reserved.</p>
         </div>
       </div>
+      <div class="mt-10 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
+        Built with ❤️ using Django & Tailwind CSS • Open to collaboration
+      </div>
     </div>
   </footer>
 
-  <!-- JS Scroll Header Effect -->
+  <!-- JavaScript -->
   <script>
+    // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 20) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenuBtn.classList.toggle('active');
+      mobileNav.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuBtn.contains(e.target) && !mobileNav.contains(e.target)) {
+        mobileMenuBtn.classList.remove('active');
+        mobileNav.classList.remove('active');
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenuBtn.classList.remove('active');
+        mobileNav.classList.remove('active');
+      });
     });
   </script>
 </body>

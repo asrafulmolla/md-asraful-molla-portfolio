@@ -11,7 +11,7 @@
       position: relative;
       overflow: hidden;
       transform: translateY(0);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s ease;
     }
 
     .skill-badge::before {
@@ -30,8 +30,8 @@
     }
 
     .skill-badge:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
     .skill-badge::after {
@@ -54,20 +54,20 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-5px); }
     }
 
     .skill-badge:nth-child(odd) {
-      animation: float 3s ease-in-out infinite;
+      animation: float 4s ease-in-out infinite;
     }
 
     .skill-badge:nth-child(even) {
-      animation: float 3s ease-in-out infinite;
-      animation-delay: 1.5s;
+      animation: float 4s ease-in-out infinite;
+      animation-delay: 2s;
     }
 
     .skill-badge:active {
-      transform: translateY(-4px) scale(0.98);
+      transform: translateY(-2px) scale(0.99);
     }
 
     .glow-effect {
