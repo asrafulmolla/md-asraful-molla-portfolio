@@ -506,7 +506,7 @@
           <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" />
           <path d="M2 17L12 12L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" />
         </svg>
-        Asraful
+        <a href="{% url 'home' %}#about">Asraful</a>
       </div>
 
       <!-- Desktop Navigation -->
@@ -571,7 +571,8 @@
           <ul class="space-y-2 text-gray-300 text-sm">
             <li><a href="#about" class="hover:text-hf-accent">About</a></li>
             <li><a href="#projects" class="hover:text-hf-accent">Projects</a></li>
-            <li><a href="#blog" class="hover:text-hf-accent">Blog</a></li>
+            <li><a href="{% url 'blog_list' %}" class="hover:text-hf-accent">Blog</a></li>
+            <li><a href="{% url 'gallery_list' %}" class="hover:text-hf-accent">Gallery</a></li>
             <li><a href="#contact" class="hover:text-hf-accent">Contact</a></li>
           </ul>
         </div>
@@ -605,12 +606,44 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0H5C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zm-1.5-12.3c-1 0-1.8-.8-1.8-1.8S5.5 3 6.5 3s1.8.8 1.8 1.8-.8 1.9-1.8 1.9zM19 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8C13.4 7.2 19 7 19 12.2V19z"/></svg>
               </a>
             {% endif %}
+            {% if profile.email %}
+              <a href="mailto:{{ profile.email }}" target="_blank" class="social-link">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 
+                  2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 
+                  4-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+              </a>
+            {% endif %}
+
+            {% if profile.phone %}
+              <a href="https://wa.me/{{ profile.phone }}" target="_blank" class="social-link">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.52 3.48A11.79 11.79 0 0 0 12 0C5.38 0 
+                  0 5.38 0 12c0 2.12.55 4.18 1.61 6.01L0 
+                  24l6.18-1.61A11.9 11.9 0 0 0 12 24c6.62 
+                  0 12-5.38 12-12 0-3.19-1.24-6.2-3.48-8.52zM12 
+                  22a9.84 9.84 0 0 1-5.02-1.38l-.36-.21-3.67.96.98-3.58-.23-.37A9.9 
+                  9.9 0 0 1 2 12C2 6.48 6.48 2 12 2c2.66 0 5.16 
+                  1.04 7.04 2.93A9.93 9.93 0 0 1 22 12c0 
+                  5.52-4.48 10-10 10zm5.27-7.25c-.29-.15-1.71-.84-1.97-.94-.26-.1-.45-.15-.64.15s-.74.94-.91 
+                  1.13c-.17.2-.34.22-.63.07s-1.22-.45-2.33-1.43a8.6 
+                  8.6 0 0 1-1.58-1.95c-.17-.29 0-.45.13-.6.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.1-.2.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.1-.23-.55-.47-.48-.64-.49h-.55c-.18 
+                  0-.48.07-.74.36s-.97.95-.97 2.32.99 2.68 
+                  1.13 2.86c.15.2 1.94 2.96 4.7 4.15.66.29 
+                  1.17.46 1.57.59.66.21 1.26.18 1.73.11.53-.08 
+                  1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z"/>
+                </svg>
+              </a>
+            {% endif %}
+
+
           </div>
-          <p class="text-xs text-gray-500">&copy; {% now "Y" %} Asraful Molla. All rights reserved.</p>
+         
         </div>
       </div>
       <div class="mt-10 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
-        Built with ❤️ using Django & Tailwind CSS • Open to collaboration
+         <p class="text-xs text-gray-500">&copy; {% now "Y" %} Asraful Molla. All rights reserved.</p>
       </div>
     </div>
   </footer>
